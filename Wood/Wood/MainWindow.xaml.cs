@@ -26,5 +26,15 @@ namespace Wood
             int n = 0;
             List<Cilinder> timber_list;
         }
+
+        private void textBoxR1_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (Char.IsDigit(e.Text, 0) || (e.Text == "."))
+            {
+                e.Handled = false;
+            }
+            else
+                e.Handled = true;
+        }
     }
 }

@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wood"
         mc:Ignorable="d"
-        Title="Бревна 2016" Height="250" Width="600">
+        Title="Бревна 2016" Height="350" Width="700" FontFamily="Yu Gothic Medium" VerticalAlignment="Center" VerticalContentAlignment="Center" ResizeMode="CanMinimize">
     <Grid>
-        <ComboBox x:Name="NBox" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="Top" Width="120" Height="30" FontFamily="MS Gothic"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="150,95,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="150" MaxLines="1" FontFamily="MS UI Gothic" TextAlignment="Right"/>
+        <ComboBox x:Name="NBox" HorizontalAlignment="Left" Margin="10,149,0,0" VerticalAlignment="Top" Width="120" Height="27" FontFamily="MS Gothic" BorderBrush="#FFEEDD82" BorderThickness="1" FontSize="17" Foreground="Black"/>
+
+        <TextBox x:Name="textBoxR1" HorizontalAlignment="Left" Height="27" Margin="170,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" MaxLines="1" FontFamily="Yu Gothic Medium" TextAlignment="Right" FontSize="17" TextOptions.TextHintingMode="Fixed" MinLines="1" MaxLength="14" PreviewTextInput="textBoxR1_PreviewTextInput" BorderThickness="3" BorderBrush="#FFEEDD82"/>
+        <TextBox x:Name="textBoxR2" HorizontalAlignment="Left" Height="27" Margin="360,149,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" MaxLines="1" FontFamily="Yu Gothic Medium" TextAlignment="Right" FontSize="17" TextOptions.TextHintingMode="Fixed" MinLines="1" MaxLength="14" PreviewTextInput="textBoxR1_PreviewTextInput" BorderThickness="3" BorderBrush="#FFEEDD82"/>
 
     </Grid>
 </Window>
