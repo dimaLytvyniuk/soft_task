@@ -18,9 +18,9 @@ namespace Wood
         /*
          *4 - L < (R2 - R1) / 2
         */
-        public override int Set(float R1, float R2, float L)
+        public override int Set(float r1, float r2, float l)
         {
-            int value = base.Set(R1, R2, L);
+            int value = base.Set(r1, r2, l);
 
             if (value == 0)
             {
@@ -29,16 +29,16 @@ namespace Wood
             else
                 return value;
 
-            if (L < ((R2 - R1) / 2))
+            if (l < ((r2 - r1) / 2))
                 return 4;
 
-            this.H = (float) Math.Sqrt((float)(Math.Pow(L, 2) - Math.Pow((R2 - R1) / 2, 2)));
+            this.H = (float) Math.Sqrt((float)(Math.Pow(l, 2) - Math.Pow((r2 - r1) / 2, 2)));
             return 0;
         }
 
         public override float V()
         {
-            float value = (float)(Math.PI * H * (Math.Pow(R1, 2) + Math.Pow(R2, 2) + R2 * R1)) / 3;
+            float value = (float)(Math.PI * H * (Math.Pow(r1, 2) + Math.Pow(r2, 2) + r2 * r1)) / 3;
 
             return value;
         }

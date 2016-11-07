@@ -20,11 +20,24 @@ namespace Wood
     /// </summary>
     public partial class MainWindow : Window
     {
+        int count = 0;
+        List<Cilinder> timber_list;
+        Cilinder prom;
+
         public MainWindow()
         {
             InitializeComponent();
-            int n = 0;
-            List<Cilinder> timber_list;
+            count = 10;
+            prom = new Cilinder();
+            timber_list = new List<Cilinder>();
+
+            for (int i = 0;i < count;i++)
+            {
+                NBox.Items.Add(i + 1);
+                timber_list.Add(prom);
+                prom = new Cilinder();   
+            }
+
         }
 
         private void textBoxR1_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -35,6 +48,19 @@ namespace Wood
             }
             else
                 e.Handled = true;
+        }
+
+        private void NBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = NBox.SelectedIndex;
+            if (index != -1)
+            {
+                prom = timber_list[index];
+                textBoxL.Text = prom.L.ToString();
+                textBoxR1.Text = prom.R1.ToString();
+                textBoxR2.Text = prom.R2.ToString();
+            }
+            
         }
     }
 }
