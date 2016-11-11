@@ -20,7 +20,8 @@ namespace Wood
     /// </summary>
     public partial class MainWindow : Window
     {
-        int count = 0;
+        int count = 0,
+            previous = -1;
         List<Cilinder> timber_list;
         Cilinder prom;
 
@@ -52,15 +53,46 @@ namespace Wood
 
         private void NBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int index = NBox.SelectedIndex;
-            if (index != -1)
+            float L = -1, 
+                  R1 = -1 , 
+                  R2 = -1;
+
+            if (previous != -1)
             {
-                prom = timber_list[index];
+                if (comboBox_Type.SelectedIndex == 0)
+                {
+                    prom = new Cilinder();
+                }
+                else
+                    prom = new Conus();
+
+                try
+                {
+                    L = (float)Convert.ToDouble(textBoxL.Text);
+                    R1 = (float)Convert.ToDouble(textBoxR1.Text);
+                    R2 = (float)Convert.ToDouble(textBoxR2.Text);
+
+                    prom.Set(L, R1, R2);
+
+                    timber_list[previous] = prom;
+                }
+                catch (Exception e1)
+                {
+                    MessageBox.Show("Ви ввели не коректные данные", "Error");
+                }
+            }
+
+            previous = NBox.SelectedIndex;
+
+            if (previous != -1)
+            {
+                prom = timber_list[previous];
+
                 textBoxL.Text = prom.L.ToString();
                 textBoxR1.Text = prom.R1.ToString();
                 textBoxR2.Text = prom.R2.ToString();
             }
-            
+
         }
     }
 }
