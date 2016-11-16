@@ -22,13 +22,18 @@ namespace Wood
         public Window_about1()
         {
             InitializeComponent();
-            String path = "F:\\C\\DIMA\\C#\\soft_task\\Wood\\Wood\\forest_2.bmp";
+            String path = "F:\\C\\DIMA\\C#\\soft_task\\Wood\\Wood\\forest_6.bmp";
             this.Background = new ImageBrush(new BitmapImage(new Uri(path)));
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
+            this.DialogResult = true;
+        }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //this.DialogResult = false;
         }
     }
 }

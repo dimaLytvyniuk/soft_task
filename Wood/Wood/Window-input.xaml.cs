@@ -32,9 +32,26 @@ namespace Wood
         public Window_input()
         {
             InitializeComponent();
+            String path = "F:\\C\\DIMA\\C#\\soft_task\\Wood\\Wood\\forest_6.bmp";
+            this.Background = new ImageBrush(new BitmapImage(new Uri(path)));
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+        }
+
+        private void textBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (Char.IsDigit(e.Text, 0))
+            {
+                e.Handled = false;
+            }
+            else
+                e.Handled = true;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
         }

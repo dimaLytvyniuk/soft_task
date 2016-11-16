@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Wood"
         mc:Ignorable="d"
-        Title="Бревна 2016" Height="300" Width="400" WindowStartupLocation="CenterScreen">
+        Title="Бревна 2016" Height="300" Width="400" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize" Closing="Window_Closing">
     <Grid>
         <Button x:Name="button" Content="Далее" HorizontalAlignment="Left" Margin="80,202,0,0" VerticalAlignment="Top" Width="240" Height="43" Background="#FFEEDD82" FontFamily="Yu Gothic UI Semilight" FontSize="16" Click="button_Click"/>
         <Label x:Name="label" Content="  Добро пожаловать в &#xD;&#xA;          Бревна 2016" HorizontalAlignment="Left" Height="65" Margin="80,43,0,0" VerticalAlignment="Top" Width="240" FontSize="20" FontFamily="Yu Gothic UI Semibold" Foreground="#FFEEDD82"/>

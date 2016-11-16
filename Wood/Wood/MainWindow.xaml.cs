@@ -30,20 +30,50 @@ namespace Wood
 
         public MainWindow()
         {
-            Window_about1 win_1 = new Window_about1();
-            
             InitializeComponent();
-            String path = "F:\\C\\DIMA\\C#\\soft_task\\Wood\\Wood\\forest_2.bmp";
+            String path = "F:\\C\\DIMA\\C#\\soft_task\\Wood\\Wood\\forest_6.bmp";
             this.Background = new ImageBrush(new BitmapImage(new Uri(path)));
+            Window_about1 win_1 = new Window_about1();
 
-            
-            if(win_1.ShowDialog() == true)
+            if (win_1.ShowDialog() == true)
             {
+                if (win_1.DialogResult == true)
+                {
+                    bool res = false;
+                    while (!res)
+                    {
+                        Window_input win2 = new Window_input();
 
+                        if (win2.ShowDialog() == true)
+                        {
+                            if (win2.DialogResult == true)
+                            {
+                                try
+                                {
+                                    count = Convert.ToInt32(win2.textBox.Text);
+
+                                    if (count == 0)
+                                    {
+                                        MessageBox.Show("Количество колод должно быть больше 0", "Ошибка");
+                                    }
+                                    else
+                                        res = true;
+                                }
+                                catch (Exception e)
+                                {
+                                    MessageBox.Show("Не коректное количество колод", "Ошибка");
+                                }
+                            }
+                        }
+                        else
+                            Environment.Exit(0);
+                    }
+                }
             }
-            
+            else
+                Environment.Exit(0);
 
-            count = 10;
+            //count = 10;
             previous = -1;
             prom = new Cilinder();
             timber_list = new List<Cilinder>();
@@ -55,6 +85,7 @@ namespace Wood
                 prom = new Cilinder();   
             }
 
+            NBox.SelectedIndex = 0;
         }
 
         private void textBoxR1_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -96,13 +127,13 @@ namespace Wood
                 {
                     curr_error = true;
                     NBox.SelectedIndex = previous;
-                    MessageBox.Show("Не коректный формат чисел\n Коректная запись: 1,234", "Ошыбка");
+                    MessageBox.Show("Не коректный формат чисел\n Коректная запись: 1,234", "Ошибка");
                 }
                 catch (pifagorException e1)
                 {
                     curr_error = true;
                     NBox.SelectedIndex = previous;
-                    MessageBox.Show(e1.Message, "Ошыбка");
+                    MessageBox.Show(e1.Message, "Ошибка");
                 }
 
             }
@@ -150,14 +181,116 @@ namespace Wood
         private void button_V_simple_Click(object sender, RoutedEventArgs e)
         {
             double V = 0;
+            float r1 = 0,
+                  r2 = 0,
+                  l = 0;
+            timber_type type = 0;
+
+            previous = NBox.SelectedIndex;
+
+            if (previous != -1)
+            {
+                prom = new Cilinder();
+
+                try
+                {
+                    r1 = (float)Convert.ToDouble(textBoxR1.Text);
+                    r2 = (float)Convert.ToDouble(textBoxR2.Text);
+                    l = (float)Convert.ToDouble(textBoxL.Text);
+                    type = (timber_type)comboBox_Type.SelectedIndex;
+
+                    prom.Set(r1, r2, l, type);
+                    timber_list[previous] = prom;
+                }
+                catch (FormatException e1)
+                {
+                    curr_error = true;
+                    NBox.SelectedIndex = previous;
+                    MessageBox.Show("Не коректный формат чисел\n Коректная запись: 1,234", "Ошибка");
+                }
+                catch (pifagorException e1)
+                {
+                    curr_error = true;
+                    NBox.SelectedIndex = previous;
+                    MessageBox.Show(e1.Message, "Ошибка");
+                }
+
+            }
+
+            for (int i = 0; i < count;i++)
+            {
+                V += timber_list[i].V();
+            }
+
+            string message_res = "Общий объем колод: " + String.Format("{0,30:#.0000}", V);
+            MessageBox.Show(message_res, "Complete");
         }
 
         private void comboBox_Type_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboBox_Type.SelectedIndex == 0)
+            {
                 image.Source = new BitmapImage(new Uri("F:\\C\\DIMA\\C#\\soft_task\\Wood\\Wood\\cilinder.bmp"));
+                textBoxR2.IsEnabled = false;
+            }
             else
+            {
                 image.Source = new BitmapImage(new Uri("F:\\C\\DIMA\\C#\\soft_task\\Wood\\Wood\\conus.bmp"));
+                textBoxR2.IsEnabled = true;
+            }
+        }
+
+        private void button_change_Click(object sender, RoutedEventArgs e)
+        {
+            this.Visibility = Visibility.Hidden;
+
+            bool res = false;
+            while (!res)
+            {
+                Window_input win2 = new Window_input();
+
+                if (win2.ShowDialog() == true)
+                {
+                    if (win2.DialogResult == true)
+                    {
+                        try
+                        {
+                            count = Convert.ToInt32(win2.textBox.Text);
+
+                            if (count == 0)
+                            {
+                                MessageBox.Show("Количество колод должно быть больше 0", "Ошибка");
+                            }
+                            else
+                                res = true;
+
+                            prom = new Cilinder();
+                            timber_list = null;
+                            timber_list = new List<Cilinder>();
+                            curr_error = true;
+                            NBox.Items.Clear();
+
+
+                            for (int i = 0; i < count; i++)
+                            {
+                                NBox.Items.Add(i + 1);
+                                timber_list.Add(prom);
+                                prom = new Cilinder();
+                            }
+
+                            curr_error = false;
+                            this.Visibility = Visibility.Visible;
+                            NBox.SelectedIndex = 0;
+                        }
+                        catch (Exception e1)
+                        { 
+                            MessageBox.Show("Не коректное количество колод", "Ошибка");
+                        }
+                    }
+                }
+                else
+                    Environment.Exit(0);
+            }
         }
 
         private void NBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -187,13 +320,19 @@ namespace Wood
                     {
                         curr_error = true;
                         NBox.SelectedIndex = previous;
-                        MessageBox.Show("Не коректный формат чисел\n Коректная запись: 1,234", "Ошыбка");
+                        MessageBox.Show("Не коректный формат чисел\n Коректная запись: 1,234", "Ошибка");
                     }
                     catch (pifagorException e1)
                     {
                         curr_error = true;
                         NBox.SelectedIndex = previous;
-                        MessageBox.Show(e1.Message, "Ошыбка");
+                        MessageBox.Show(e1.Message, "Ошибка");
+                    }
+                    catch (OverflowException e2)
+                    {
+                        curr_error = true;
+                        NBox.SelectedIndex = previous;
+                        MessageBox.Show("Слишком большое число", "Ошибка");
                     }
 
                 }
