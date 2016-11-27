@@ -67,18 +67,18 @@ namespace Wood
 
             if (r1 < r2 || type == 0)
             {
-                this.r1 = r1;
-                this.r2 = r2;
+                this.r1 = r1 / 100;
+                this.r2 = r2 / 100;
             }
             else
             {
-                this.r1 = r2;
-                this.r2 = r1;
+                this.r1 = r2 / 100;
+                this.r2 = r1 / 100;
             }
 
             if (type == timber_type.conus)
             {
-                if (l < ((this.r2 - this.r1) / 2))
+                if (l < (this.r2 - this.r1))
                     throw new pifagorException("L должно быть больше за R2 - R1");
 
                 h = (float)Math.Sqrt(Math.Pow(l, 2) - Math.Pow(r2 - r1, 2));
@@ -107,14 +107,14 @@ namespace Wood
         {
             string result = "";
 
-            result = String.Format("{0,16}", r1.ToString());
+            result = String.Format("{0,16}см", r1.ToString());
 
             if (type == 0)
                 result += String.Format("{0,16}"," ");
             else
-                result += String.Format("{0,16}", r2.ToString());
+                result += String.Format("{0,16}см", r2.ToString());
 
-            result += String.Format("{0,16}", l.ToString());
+            result += String.Format("{0,16}м", l.ToString());
 
             if (type == 0)
                 result += String.Format("{0,10}", "Цилиндр");
