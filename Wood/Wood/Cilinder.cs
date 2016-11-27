@@ -107,19 +107,19 @@ namespace Wood
         {
             string result = "";
 
-            result = String.Format("{0,16}см", r1.ToString());
+            result = String.Format("{0,16} см", r1.ToString());
 
             if (type == 0)
-                result += String.Format("{0,16}"," ");
+                result += String.Format("{0,19}"," ");
             else
-                result += String.Format("{0,16}см", r2.ToString());
+                result += String.Format("{0,16} см", r2.ToString());
 
-            result += String.Format("{0,16}м", l.ToString());
+            result += String.Format("{0,16} м", l.ToString());
 
             if (type == 0)
-                result += String.Format("{0,10}", "Цилиндр");
+                result += String.Format("{0,12}", "Цилиндр");
             else
-                result += String.Format("{0,10}", "Конус");
+                result += String.Format("{0,12}", "Конус");
 
             return result;
         }

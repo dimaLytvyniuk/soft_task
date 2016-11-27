@@ -150,7 +150,7 @@ namespace Wood
                     writer.Write(str);
                     writer.WriteLine();
 
-                    str = String.Format("{0,4}", "№") + String.Format("{0,16}", "Радиус №1") + String.Format("{0,16}", "Радиус №2") + String.Format("{0,16}", "Длина") + String.Format("{0,10}", "Тип") + String.Format("{0,18}", "Объем") + "\n";
+                    str = String.Format("{0,4}", "№") + String.Format("{0,19}", "Радиус №1") + String.Format("{0,19}", "Радиус №2") + String.Format("{0,18}", "Длина") + String.Format("{0,12}", "Тип") + String.Format("{0,34}", "Объем") + "\n";
                     writer.Write(str);
                     writer.WriteLine();
 
@@ -163,12 +163,12 @@ namespace Wood
 
                         str += String.Format("{0,4}", i + 1);
                         str += timber_list[i].ToString();
-                        str += String.Format("{0,30:#0.0000}м^3", prom_v);
+                        str += String.Format("{0,30:#0.0000} м^3", prom_v);
                         writer.Write(str);
                         writer.WriteLine();
                     }
 
-                    str = "ВСЕГО" + String.Format("{0,87:#0.0000}м^3", V);
+                    str = "ВСЕГО" + String.Format("{0,97:#0.0000} м^3", V);
                     writer.Write(str);
 
                     writer.WriteLine();
@@ -225,7 +225,7 @@ namespace Wood
                     V += timber_list[i].V();
                 }
 
-                string message_res = "Общий объем колод: " + String.Format("{0,30:#0.0000}м^3", V);
+                string message_res = "Общий объем колод: " + String.Format("{0,34:#0.0000} м^3", V);
                 MessageBox.Show(message_res, "Complete");
             }
         }
@@ -234,13 +234,11 @@ namespace Wood
         {
             if (comboBox_Type.SelectedIndex == 0)
             {
-                String path = @"Resources\cilinder.bmp";
                 image.Source = new BitmapImage(new Uri(@"Resources\cilinder.bmp", UriKind.Relative));
                 textBoxR2.IsEnabled = false;
             }
             else
             {
-                String path = @"Resources\conus.bmp";
                 image.Source = new BitmapImage(new Uri(@"Resources\conus.bmp", UriKind.Relative));
                 textBoxR2.IsEnabled = true;
             }
