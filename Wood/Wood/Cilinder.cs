@@ -81,7 +81,7 @@ namespace Wood
                 if (l < (this.r2 - this.r1))
                     throw new pifagorException("L должно быть больше за R2 - R1");
 
-                h = (float)Math.Sqrt(Math.Pow(l, 2) - Math.Pow(r2 - r1, 2));
+                h = (float)Math.Sqrt(Math.Pow(l, 2) - Math.Pow(this.r2 - this.r1, 2));
             }
 
             this.l = l;
@@ -98,7 +98,7 @@ namespace Wood
             if (type == timber_type.cilinder)
                 value = (float)Math.PI * r1 * r1 * l;
             else
-                value = (float)(Math.PI * h * (Math.Pow(r1, 2) + Math.Pow(r2, 2) + r2 * r1)) / 3;// V conus
+                value = (float)(Math.PI * l * (Math.Pow(r1, 2) + Math.Pow(r2, 2)) / 2) ;// V conus
 
             return value;
         }

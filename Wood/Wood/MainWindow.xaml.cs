@@ -273,7 +273,10 @@ namespace Wood
                             timber_list = new List<Cilinder>();
                             curr_error = true;
                             NBox.Items.Clear();
-
+                            textBoxL.Text = prom.L.ToString();
+                            textBoxR1.Text = (prom.R1 * 100).ToString();
+                            textBoxR2.Text = (prom.R2 * 100).ToString();
+                            comboBox_Type.SelectedIndex = (int)prom.Type;
 
                             for (int i = 0; i < count; i++)
                             {
@@ -349,8 +352,8 @@ namespace Wood
                     {
                         prom = timber_list[previous];
                         textBoxL.Text = prom.L.ToString();
-                        textBoxR1.Text = prom.R1.ToString();
-                        textBoxR2.Text = prom.R2.ToString();
+                        textBoxR1.Text = (prom.R1 * 100).ToString();
+                        textBoxR2.Text = (prom.R2 * 100).ToString();
                         comboBox_Type.SelectedIndex = (int)prom.Type;
                     }
                 }
