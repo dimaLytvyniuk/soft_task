@@ -56,6 +56,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="SolutionLottery.cs" />
+    <Compile Include="Window_Editions.xaml.cs">
+      <DependentUpon>Window_Editions.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Window_table_sumImov.xaml.cs">
       <DependentUpon>Window_table_sumImov.xaml</DependentUpon>
     </Compile>
@@ -72,6 +75,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Window_Editions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Window_table_sumImov.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

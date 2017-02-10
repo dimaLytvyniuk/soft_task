@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace lottery
 {
@@ -51,7 +52,34 @@ namespace lottery
 
                 win_1.Show();
             }
+            else
+                MessageBox.Show("Немає даних", "Помилка");
 
+        }
+
+        public void DisplayEditions()
+        {
+            Window_Editions win_1 = new Window_Editions();
+
+            if (solution != null)
+            {
+                solution.DisplayEditiions(win_1.editionsGrid);
+
+                win_1.Show();
+            }
+            else
+                MessageBox.Show("Немає даних", "Помилка");
+
+        }
+
+        public void Analiz()
+        {
+            if (solution != null)
+            {
+                solution.Analiz();
+            }
+            else
+                MessageBox.Show("Немає даних", "Помилка");
         }
     }
 }

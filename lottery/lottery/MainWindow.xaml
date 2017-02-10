@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lottery"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525" Closing="Window_Closing">
     <Grid>
         <Button x:Name="button" Content="Открыть файл для считывания тиражей" HorizontalAlignment="Left" Height="42" Margin="94,100,0,0" VerticalAlignment="Top" Width="232" Click="button_Click"/>
+        <Button x:Name="button_disEditions" Content="Відобразити тиражі" HorizontalAlignment="Left" Margin="94,177,0,0" VerticalAlignment="Top" Width="232" Height="40" Click="button_disEditions_Click"/>
+        <Button x:Name="button_countBalls" Content="Відобразити к-сть випадань шарів" HorizontalAlignment="Left" Margin="94,256,0,0" VerticalAlignment="Top" Width="232" Height="40" Click="button_countBalls_Click"/>
 
     </Grid>
 </Window>

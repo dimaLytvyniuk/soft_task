@@ -31,6 +31,21 @@ namespace lottery
         private void button_Click(object sender, RoutedEventArgs e)
         {
             controlObject.OpenFile();
+            controlObject.Analiz();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void button_disEditions_Click(object sender, RoutedEventArgs e)
+        {
+            controlObject.DisplayEditions();
+        }
+
+        private void button_countBalls_Click(object sender, RoutedEventArgs e)
+        {
             controlObject.DisplaySumImov();
         }
     }

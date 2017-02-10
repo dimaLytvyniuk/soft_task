@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace lottery
 {
@@ -12,9 +13,9 @@ namespace lottery
     {
 
         List<List<int>> editions;
-        Dictionary<int, int> balls;
-        Dictionary<int, int> countOfHits;
+        Dictionary<int, int> countBalls;
         Dictionary<int, Interval> countIntervals;
+        List<int> superBalls;
 
         int k,
             min,
@@ -32,11 +33,14 @@ namespace lottery
             this.max = max;
 
             editions = new List<List<int>>();
-            balls = new Dictionary<int, int>();
+            countBalls = new Dictionary<int, int>();
+
+            if (superBall)
+                superBalls = new List<int>();
 
             for (int i = min; i <= max; i++)
             {
-                balls.Add(i, 0);
+                countBalls.Add(i, 0);
             }
         }
 
@@ -45,10 +49,24 @@ namespace lottery
             using (StreamReader reader = new StreamReader(fileName))
             {
                 string str = "";
-
+                List<int> prom;
                 while ((str = reader.ReadLine()) != null)
                 {
-                    editions.Add(Cutting(str).ToList());
+                    prom = Cutting(str).ToList();
+
+                    if (superBall)
+                    {
+                        editions.Add(new List<int>());
+
+                        for (int i = 0; i < k; i++)
+                        {
+                            editions[countOfEditions].Add(prom[i]);
+                        }
+                        superBalls.Add(prom[k]);
+                    }
+                    else
+                        editions.Add(prom);
+                    
                     countOfEditions++;
                 }
             }
@@ -99,26 +117,72 @@ namespace lottery
             {
                 for (int j = 0; j < k; j++)
                 {
-                    balls[editions[i][j]]++;
+                    countBalls[editions[i][j]]++;
                 }
             }
         }
 
         public void DisplaySumImov(DataGrid sumImovGrid)
         {
-            sumImovGrid.ItemsSource = balls;
+            var col = new DataGridTextColumn();
+            col.Header = "Номер шару ";
+            col.Binding = new Binding(string.Format("Key"));
+            sumImovGrid.Columns.Add(col);
+            col = new DataGridTextColumn();
+            col.Header = "Кількість випадань";
+            col.Binding = new Binding("Value");
+            sumImovGrid.Columns.Add(col);
+
+            List<KeyValuePair<int, int>> prom = countBalls.ToList<KeyValuePair<int, int>>();
+
+             for (int i = 0; i < max; i++)
+             {
+                 sumImovGrid.Items.Add(prom[i]);
+             }
         }
 
-        private int CountSumEditions()
+        public void DisplayEditiions(DataGrid sumImovGrid)
         {
-            int res = 0;
 
-            return res;
+            for (int i = 0; i < k; i++)
+            {
+                var col = new DataGridTextColumn();
+                col.Header = "Число " + (i + 1);
+                col.Binding = new Binding(string.Format("[{0}]", i));
+                sumImovGrid.Columns.Add(col);
+            }
+
+            var col_1 = new DataGridTextColumn();
+            col_1.Header = "Cума ";
+            col_1.Binding = new Binding(string.Format("[{0}]", k));
+            sumImovGrid.Columns.Add(col_1);
+
+            for (int i = 0; i < countOfEditions; i++)
+            {
+                sumImovGrid.Items.Add(editions[i]);
+            }
         }
 
-        private void CountCharactiks()
+        private void CountSumEditions()
         {
-            Charactiks charactiks;
+            int sum;
+
+            for (int i = 0;i < countOfEditions;i++)
+            {
+                sum = 0;
+
+                for (int j = 0; j < k;j++)
+                {
+                    sum += countBalls[editions[i][j]];
+                }
+
+                editions[i].Add(sum);
+            }
+        }
+
+        private Charactiks CountCharactiks()
+        {
+            Charactiks charactiks = new Charactiks();
             Interval interval;
 
             countIntervals = new Dictionary<int, Interval>();
@@ -143,7 +207,7 @@ namespace lottery
                 interval = new Interval(0, 0, 0);
                 countHit = new Dictionary<int, int>();
 
-                for (int j = min; j < max; j++)
+                for (int j = min; j <= max; j++)
                 {
                     if (countHit.ContainsKey(copyBalls[j]))
                     {
@@ -159,9 +223,9 @@ namespace lottery
 
                 for (int j = 0; j < k; j++)
                 {
-                    if (editions[i][j] < charactiks.MinInterval)
+                    if (copyBalls[editions[i][j]] < charactiks.MinInterval)
                         interval.Less++;
-                    else if (editions[i][j] > charactiks.MaxInterval)
+                    else if (copyBalls[editions[i][j]] > charactiks.MaxInterval)
                         interval.More++;
                     else
                         interval.InInterval++;
@@ -171,6 +235,8 @@ namespace lottery
 
                 countIntervals.Add(i, interval);
             }
+
+            return charactiks;
         }
 
         private Charactiks PromCharacticks(Dictionary<int,int> countHit)
@@ -199,14 +265,18 @@ namespace lottery
 
         public void Analiz()
         {
-            CountCharactiks();
-
             Dictionary<int, int> countLess = new Dictionary<int, int>();
             Dictionary<int, int> countMore = new Dictionary<int, int>();
             Dictionary<int, int> countIn = new Dictionary<int, int>();
             Charactiks moreChare,
                        lessChare,
                        inChare;
+            List<int> lessBalls = new List<int>(),
+                moreBalls = new List<int>(),
+                inBalls = new List<int>();
+
+            Charactiks charactiks = CountCharactiks();
+            CountSumEditions();
 
             for (int i = basicNum; i < countOfEditions;i++)
             {
@@ -241,6 +311,25 @@ namespace lottery
             moreChare = PromCharacticks(countMore);
             lessChare = PromCharacticks(countLess);
             inChare = PromCharacticks(countIn);
+
+            moreChare.MX = Math.Round(moreChare.MX,MidpointRounding.AwayFromZero);
+            lessChare.MX = Math.Round(lessChare.MX, MidpointRounding.AwayFromZero);
+            inChare.MX = Math.Round(inChare.MX, MidpointRounding.AwayFromZero);
+
+            SortBalls(charactiks,ref lessBalls,ref moreBalls,ref inBalls);
+        }
+
+        private void SortBalls(Charactiks characticks, ref List<int> lessBalls,ref List<int> moreBalls, ref List<int> inBalls)
+        {
+            for (int i = min; i <= max; i++)
+            {
+                if (countBalls[i] < characticks.MinInterval)
+                    lessBalls.Add(i);
+                else if (countBalls[i] > characticks.MaxInterval)
+                    moreBalls.Add(i);
+                else
+                    inBalls.Add(i);
+            }
         }
     }
 

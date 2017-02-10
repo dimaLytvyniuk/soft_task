@@ -5,13 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lottery"
         mc:Ignorable="d"
-        Title="" Height="449" Width="111" ResizeMode="CanMinimize">
+        Title="Шари" Height="449" Width="259" ResizeMode="CanMinimize">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <DataGrid x:Name="sumImovGrid" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="349" Width="86"/>
-        <Button x:Name="button" Content="Close" HorizontalAlignment="Left" Margin="10,380,0,0" VerticalAlignment="Top" Width="84" Click="button_Click"/>
-
+        <DataGrid x:Name="sumImovGrid" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="349" Width="221"/>
+        <Button x:Name="button" Content="Close" HorizontalAlignment="Left" Margin="10,380,0,0" VerticalAlignment="Top" Width="108" Click="button_Click"/>
     </Grid>
 </Window>
