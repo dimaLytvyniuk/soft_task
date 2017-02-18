@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows;
 
 namespace lottery
 {
     class SolutionLottery
     {
 
-        List<List<int>> editions;
+        List<List<int>> editions,
+                        newEdition;
+
         Dictionary<int, int> countBalls;
         Dictionary<int, Interval> countIntervals;
         List<int> superBalls;
@@ -267,16 +270,19 @@ namespace lottery
         {
             Dictionary<int, int> countLess = new Dictionary<int, int>();
             Dictionary<int, int> countMore = new Dictionary<int, int>();
-            Dictionary<int, int> countIn = new Dictionary<int, int>();
+            Dictionary<int, int> countIn = new Dictionary<int, int>(),
+                countSumIn = new Dictionary<int, int>();
+
+            List<List<int>> generBalls = new List<List<int>>();
+            List<int> sumig = new List<int>();
+
             Charactiks moreChare,
                        lessChare,
-                       inChare;
-            List<int> lessBalls = new List<int>(),
-                moreBalls = new List<int>(),
-                inBalls = new List<int>();
+                       inChare,
+                       sumChare;
 
-            Charactiks charactiks = CountCharactiks();
             CountSumEditions();
+            Charactiks charactiks = CountCharactiks();
 
             for (int i = basicNum; i < countOfEditions;i++)
             {
@@ -316,20 +322,349 @@ namespace lottery
             lessChare.MX = Math.Round(lessChare.MX, MidpointRounding.AwayFromZero);
             inChare.MX = Math.Round(inChare.MX, MidpointRounding.AwayFromZero);
 
-            SortBalls(charactiks,ref lessBalls,ref moreBalls,ref inBalls);
+            SortBalls(charactiks,ref generBalls,(int)moreChare.MX,(int)lessChare.MX,(int)inChare.MX);
+
+            for (int i = 0; i < countOfEditions;i++)
+            {
+                if (countSumIn.ContainsKey(editions[i][k]))
+                {
+                    countSumIn[editions[i][k]]++;
+                }
+                else
+                {
+                    countSumIn.Add(editions[i][k], 1);
+                }
+            }
+
+            sumChare = PromCharacticks(countSumIn);
+
+            /*
+            for (int i = 0; i < editions.Count; i++)
+            {
+                bool fl = false;
+                fl = editions[i].Contains(15);                
+               
+            }
+            */
+
+            if (lessChare.MX > 1)
+            {
+                for (int i = 1; i < lessChare.MX; i++)
+                    sumig.Add(i);
+            }
+
+            if (inChare.MX > 1)
+            {
+                for (int i = (int)lessChare.MX + 1; i < inChare.MX + lessChare.MX; i++)
+                    sumig.Add(i);
+            }
+
+            if (moreChare.MX > 1)
+            {
+                for (int i = (int)lessChare.MX + (int)inChare.MX + 1; i < k; i++)
+                    sumig.Add(i);
+            }
+
+            GenerateNewEdition(generBalls,sumChare, new Interval((int)moreChare.MX,(int)lessChare.MX,(int)inChare.MX),sumig);
+
         }
 
-        private void SortBalls(Charactiks characticks, ref List<int> lessBalls,ref List<int> moreBalls, ref List<int> inBalls)
+        private void SortBalls(Charactiks characticks, ref List<List<int>> resBalls,int moreChare,int lessChare,int inChare)
         {
+            for (int i = 0; i < k;i++)
+                resBalls.Add(new List<int>());
+
             for (int i = min; i <= max; i++)
             {
                 if (countBalls[i] < characticks.MinInterval)
-                    lessBalls.Add(i);
+                {
+                    for (int j = 0; j < lessChare && j < lessChare;j++)
+                    {
+                        resBalls[j].Add(i);
+                    } 
+                }
                 else if (countBalls[i] > characticks.MaxInterval)
-                    moreBalls.Add(i);
+                {
+                    for (int j = inChare + lessChare; j < k; j++)
+                    {
+                        resBalls[j].Add(i);
+                    }
+                }
                 else
-                    inBalls.Add(i);
+                {
+                    for (int j = lessChare; j < inChare + lessChare; j++)
+                    {
+                        resBalls[j].Add(i);
+                    }
+                }
             }
+
+            for (int i = 0; i < lessChare - 1;i++)
+            {
+                for (int size = resBalls[i].Count, j = size - 1; (j > size - lessChare + i); j--)
+                {
+                    resBalls[i].RemoveAt(j);
+                }
+                        
+            }
+
+            for (int i = inChare + lessChare; i < k - 1; i++)
+            {
+                for (int size = resBalls[i].Count, j = size - 1; (j > size - moreChare + i); j--)
+                {
+                    resBalls[i].RemoveAt(j);
+                }
+            }
+
+            for (int i = lessChare; i < inChare + lessChare; i++)
+            {
+                for (int size = resBalls[i].Count, j = size - 1; (j > size - inChare + i - lessChare); j--)
+                {
+                    resBalls[i].RemoveAt(j);
+                }
+            }
+        }
+        /*
+        public void GenerateNewEdition(List<List<int>> generBalls,Charactiks sumCharact)
+        {
+            int n = 1,
+                countIter;
+
+            newEdition = new List<List<int>>();
+
+            for (int i = 0; i < k;i++)
+                n *= generBalls[i].Count;
+
+            for (int i = 0; i < n; i++)
+                newEdition.Add(new List<int>());
+
+            for (int i = 0; i < k;i++)
+            {
+                countIter = n / generBalls[i].Count;
+                
+                for (int j = 0, size = generBalls[i].Count; j < size;j++)
+                {
+                    for (int l = 0; l < countIter;l++)
+                    {
+                        if (newEdition[l + countIter * j].Contains(generBalls[i][j]) == false)
+                            newEdition[l + countIter * j].Add(generBalls[i][j]);
+                    }
+                }
+            }
+
+            
+            for (int i = 0, size = newEdition.Count; i < size;i++)
+            {
+                if (newEdition[i].Count < k)
+                {
+                     newEdition.RemoveAt(i);
+                     i--;
+                     size--;
+                }
+            }
+            
+
+            MessageBox.Show("Count = " + newEdition.Count, "Помилка");
+        }
+        */
+
+        public void GenerateNewEdition(List<List<int>> generBalls, Charactiks sumCharact, Interval intervals, List<int> sumig)
+        {
+            int varLess = FindC(intervals.Less, generBalls[intervals.Less - 1].Count),
+                varIn = FindC(intervals.InInterval, generBalls[intervals.InInterval + intervals.Less - 1].Count),
+                varMore = FindC(intervals.More, generBalls[intervals.InInterval + intervals.Less + intervals.More - 1].Count),
+                n = varLess * varIn * varMore;
+
+            newEdition = new List<List<int>>();
+
+            for (int i = 0; i < n; i++)
+                newEdition.Add(new List<int>());
+
+            if (intervals.Less > 1)
+            {
+                for (int q = 0; q < n / varLess; q++)
+                {
+                    for (int i = 0, countIter = 0; i < generBalls[0].Count; i++)
+                    {
+                        for (int j = 0; j < FindC(intervals.Less - 1, generBalls[intervals.Less - 1].Count - i - 1); j++, countIter++)
+                        {
+                            newEdition[countIter].Add(generBalls[0][i]);
+                        }
+                    }
+                }
+
+                for (int i = 1; i < intervals.Less; i++)
+                {
+                    for (int j = 0; j < generBalls[i].Count; j++)
+                    {
+                        for (int l = 0, prom = 0; l < n; l++)
+                        {
+                            if ((generBalls[i][j] > newEdition[i][l - 1]) && (newEdition[i].Count == i))
+                            {
+                                prom = FindC(intervals.Less - i - 1, generBalls[intervals.Less - 1].Count - j - 1);
+
+                                for (int t = 0; t < prom; t++)
+                                {
+                                    newEdition[l + t].Add(generBalls[i][j]);
+                                }
+
+                                l += prom - 1;//hzzzzzz 
+
+                                while (generBalls[i][j] > newEdition[i][l - 1])
+                                    l++;
+                            }
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                for (int i = 0; i < varLess; i++)
+                {
+                    for (int j = 0, count = n / varLess; j < count; j++)
+                    {
+                        newEdition[j + i * count].Add(generBalls[0][i]);
+                    }
+                }
+            }
+
+            if (intervals.InInterval > 1)
+            {
+                for (int q = 0, countIter = 0; q < n / varIn; q++)
+                {
+                    for (int i = 0; i < generBalls[intervals.Less].Count; i++)
+                    {
+                        for (int j = 0; j < FindC(intervals.InInterval - 1, generBalls[intervals.InInterval - 1].Count - i); j++)
+                        {
+                            newEdition[countIter].Add(generBalls[intervals.Less][i]);
+                            countIter++;
+                        }
+                    }
+                }
+
+                for (int i = intervals.Less + 1; i < intervals.Less + intervals.InInterval - 1; i++)
+                {
+                    for (int j = 0; j < generBalls[i].Count; j++)
+                    {
+                        for (int l = 0, prom = 0, last = 0; l < n; l++)
+                        {
+                            if (newEdition[l].Count == i)
+                            {
+                                if ((generBalls[i][j] > newEdition[l][i - 1]))
+                                {
+                                    prom = FindC(intervals.InInterval - i - 1 + intervals.Less, generBalls[intervals.InInterval - 1].Count - j - 1);
+                                    last = newEdition[l][i - 1];
+
+                                    if (prom == 0)
+                                        prom = 1;
+
+                                    l--;
+
+                                    for (int t = 0; t < prom; t++)
+                                    {
+                                        l++;
+                                        newEdition[l].Add(generBalls[i][j]);
+                                    }
+
+                                    while ((l < n) && (newEdition[l].Count == i) && last == newEdition[l][i - 1])
+                                        l++;
+
+                                }
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0, num = 0; i < n; i++)
+                {
+                    num = newEdition[i][intervals.Less + intervals.InInterval - 2];
+                    i--;
+                    for (int j = generBalls[intervals.Less + intervals.InInterval - 1].IndexOf(num) + 1; j < generBalls[intervals.Less + intervals.InInterval - 1].Count; j++)
+                    {
+                        i++;
+                        newEdition[i].Add(generBalls[intervals.Less + intervals.InInterval - 1][j]);
+                    }
+                }
+
+            }
+            else
+            {
+                for (int i = 0; i < varIn; i++)
+                {
+                    for (int j = 0, count = n / varIn; j < count; j++)
+                    {
+                        newEdition[j + i * count].Add(generBalls[intervals.Less][i]);
+                    }
+                }
+            }
+
+            if (intervals.More > 1)
+            {
+
+            }
+            else
+            {
+                for (int i = 0; i < varMore; i++)
+                {
+                    for (int j = 0, count = n / varMore; j < count; j++)
+                    {
+                        newEdition[j + i * count].Add(generBalls[k - 1][i]);
+                    }
+                }
+            }
+
+            for (int i = 0, sum = 0; i < newEdition.Count; i++)
+            {
+                for (int j = 0; j < k; j++)
+                {
+                    sum += countBalls[newEdition[i][j]];
+                }
+
+                if (sum > sumCharact.MaxInterval || sum < sumCharact.MinInterval)
+                {
+                    newEdition.RemoveAt(i);
+                    i--;
+                }
+
+                sum = 0;
+            }
+
+            int y = 0;
+        }
+
+        private int FindC(int up, int down)
+        {
+            int res = 0;
+
+            if (down == 0 || up == 0 || up > down)
+                res = 0;
+            else if ((down - up) > up)
+                res = PartFact(down - up + 1, down) / Fact(up);
+            else
+                res = PartFact(up + 1, down) / Fact(down - up);
+
+            return res;
+        }
+
+        private int Fact(int a)
+        {
+            if (a > 1)
+            {
+                return a * Fact(a - 1);
+            }
+            else
+                return 1;
+        }
+
+        private int PartFact(int start,int end)
+        {
+            int res = 1;
+
+            for (int i = start; i <= end; i++)
+                res *= i;
+
+            return res;
         }
     }
 
