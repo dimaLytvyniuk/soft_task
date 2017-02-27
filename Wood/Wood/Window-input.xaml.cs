@@ -32,8 +32,8 @@ namespace Wood
         public Window_input()
         {
             InitializeComponent();
-            String path = "F:\\C\\DIMA\\C#\\soft_task\\Wood\\Wood\\forest_6.bmp";
-            this.Background = new ImageBrush(new BitmapImage(new Uri(path)));
+            String path = @"Resources\forest_6.bmp";
+            this.Background = new ImageBrush(new BitmapImage(new Uri(path, UriKind.Relative)));
         }
 
         private void button_Click(object sender, RoutedEventArgs e)

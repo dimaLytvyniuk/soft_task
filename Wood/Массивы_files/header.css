@@ -1,0 +1,305 @@
+﻿@font-face {
+    font-family: 'fontawesome-webfont';
+    src: url('../../../fonts/fonts-awesome/fontawesome-webfont.eot'), url('../../../fonts/fonts-awesome/fontawesome-webfont.ttf') format('truetype'), url('../../../fonts/fonts-awesome/fontawesome-webfont.woff');
+}
+@font-face {
+    font-family: 'RobotoLight';
+    src: url('../../../fonts/RobotoLight/RobotoLight.eot') format('embedded-opentype'), url('../../../fonts/RobotoLight/RobotoLight.ttf') format('truetype'), url('../../../fonts/RobotoLight/RobotoLight.woff') format('woff');
+}
+body{
+    font-family: 'RobotoLight' !important;
+}
+#main-nav #logo {
+   margin: 10px 10px 10px 30px;
+}
+
+.navbar-right {
+    margin-right: 0;
+}
+.navbar-header {
+    position: relative;
+    z-index: 1000;
+}
+.navbar-header-link {
+    color: white;
+    background-color: #272727;
+    padding: 10px !important;
+    margin-left: 5px;
+}
+.navbar-header-link:hover {
+    background-color: #3b3a3a;
+    text-decoration: none;
+    color: white;
+}
+.navbar-header-link:visited, .navbar-header-link:active, .navbar-header-link:focus {
+    text-decoration: none;
+    color: white;
+}
+#main-nav .lesson-title {
+    position: absolute;
+    font-size: 25px;
+    line-height: 60px;
+    color: white !important;
+    text-align: right;
+    width: 53%;
+    padding-left: 13%;
+}
+#main-nav #count {
+    width: 68px;
+    margin-right: 10px;
+}
+    #count a {
+        line-height: 30px;
+        background: #272727;
+        padding: 0;
+        text-align: center;
+        margin-top: 15px;
+        font-size: 20px;
+    }
+#gold {
+    float: left;
+    border-right: 1px solid darkgrey;
+    padding-right: 5px;
+}
+#main-nav #points {
+    background: #eee;
+    text-align: center;
+    font-size: 20px;
+    height: 22px;
+    margin: 3px auto;
+    line-height: 25px;
+    width: 40px;
+}
+.navbar-inverse {
+    margin-bottom: 15px;
+    background: #323232;
+    border-radius: unset;
+    height: 60px;
+}
+#main-nav {
+    background: #323232;
+    border: 0;
+    border-radius: unset;
+}
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+    .lesson-title {
+        font-size: 20px !important; 
+    }
+}
+@media screen and (max-width: 768px) {
+    #main-nav .lesson-title {
+        position: static;
+        width: 100%;
+    }
+    
+    #main-nav .nav li {
+        display: inline-block;
+    }
+    .body-content {
+        /*padding: 0 !important;*/
+    }
+}
+@media screen and (max-width: 1115px) {
+    #main-nav .lesson-title {
+        text-align: left;
+    }
+}
+.body-content {
+    width: 100%;
+    max-width: 1920px;
+    padding: 0 30px;
+}
+#main-nav .dropdown>a{
+    color: white !important;
+    font-size: 16px;
+    line-height: 60px !important;
+    padding: 0;
+}
+#main-nav .dropdown.open>a{
+    background: inherit;
+}
+#main-nav .open>.dropdown-toggle>span{
+    background-image: url('../../Images/arrow_up_white.png') !important;
+}
+#main-nav .dropdown span {
+    display: inline-block;
+    border-left: 1px solid #4b4b4b;
+    padding-left: 10px;
+    margin-left: 10px;
+    margin-top: 0 !important;
+    background-image: url('../../Images/arrow_down_white.png');
+    width: 40px;
+    height: 40px;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#modal-wrapper {
+    background-color: rgba(19, 18, 18, 0.75);
+    display: block;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+#modal-info {
+    position: relative;
+    background: #ddd;
+    border: 1px solid #323232;
+    margin: 150px auto 0;
+    width: 450px;
+}
+    #modal-info header {
+        height: 50px;
+        background-color: #323232;
+        color: #fff;
+        line-height: 50px;
+        font-size: 20px;
+        text-align: center
+    }
+    #modal-info header i {
+        position: absolute;
+        right: 0;
+        line-height: 50px;
+        padding-right: 10px;
+        cursor: pointer;
+    }
+    #modal-info p {
+        padding: 5% 5% 0;
+        font-size: 20px;
+    }
+    #modal-info > div {
+        padding: 1% 10% 3%;
+        text-align: center;
+    }
+    #modal-info a {
+        margin: 0 auto;
+        background: #f65e08 !important;
+        font-size: 20px;
+        border: 1px solid #323232;
+        border-radius: unset;
+    }
+    #modal-info a:hover {
+        background: #fa7a32 !important;
+    }
+@media screen and (max-width: 760px) {
+    #modal-info {
+    width: 300px;
+    }
+}
+body::-webkit-scrollbar {
+ width:16px;
+background-color:#272727;
+}
+body::-webkit-scrollbar-thumb{
+background-color:#797979;
+}
+body::-webkit-scrollbar-thumb:hover{
+background-color:#ddd;
+border:1px solid #333333;
+}
+body::-webkit-scrollbar-thumb:active{
+background-color:#ddd;
+border:1px solid #333333;
+} 
+
+
+#header {
+    background:#323232;
+}
+    #header .container {
+        width: auto;
+    }
+    #header #logo {
+        margin: 10px 0 0 30px;
+    }
+    #header .lesson-title {
+        max-width: 650px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        margin-left: 10px;
+        display: inline-block;
+        font-size: 25px;
+        color: white;
+        line-height: 60px;
+    }
+    #header .dropdown-toggle {
+        line-height: 60px;
+    }
+    #header .dropdown>a{
+    display: inline-block;
+    float: right;
+    color: white !important;
+    font-size: 16px;
+    line-height: 60px;
+    padding: 0;
+    }
+    #header .dropdown.open>a{
+        background: inherit;
+    }
+    #header .open span{
+        background-image: url('../../Images/arrow_up_white.png') !important;
+    }
+    #header .dropdown span {
+        display: inline-block;
+        border-left: 1px solid #4b4b4b;
+        padding-left: 10px;
+        margin-left: 10px;
+        margin-top: 0 !important;
+        background-image: url('../../Images/arrow_down_white.png');
+        width: 40px;
+        height: 40px;
+        vertical-align: middle;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    #header #safe {
+        float: left;
+        margin: 10px auto;
+        padding-right: 5px;
+        border-right: 1px solid #4b4b4b;
+    }
+    #header #scoresBlock{
+        width: 68px;
+        float: left;
+        margin-right: 10px;
+        line-height: 30px;
+        background: #272727;
+        padding: 0;
+        text-align: center;
+        margin-top: 15px;
+        font-size: 20px;
+    }
+
+.navbar-header-link {
+    color: white !important;
+    background-color: #272727;
+    padding: 10px !important;
+    margin: 10px 0 0 10px;
+}
+.navbar-header-link:hover {
+    background-color: #3b3a3a !important;
+    text-decoration: none;
+    color: white;
+}
+@media screen and (max-width: 768px) {
+    .navbar-header-link {
+        margin-right: 10px;
+    }
+    #header .dropdown {
+        padding-left: 10px;
+    }
+    #header .dropdown-menu a {
+        background: #272727;
+        color: white;
+    }
+    #header .dropdown-menu a:hover {
+        background: #3b3a3a;
+    }
+    #header #logo {
+        margin-top: 5px;
+    }
+}

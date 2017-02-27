@@ -31,8 +31,8 @@ namespace Wood
         public MainWindow()
         {
             InitializeComponent();
-            String path = "F:\\C\\DIMA\\C#\\soft_task\\Wood\\Wood\\forest_6.bmp";
-            this.Background = new ImageBrush(new BitmapImage(new Uri(path)));
+            String path = @"Resources\forest_6.bmp";
+            this.Background = new ImageBrush(new BitmapImage(new Uri(path, UriKind.Relative)));
             Window_about1 win_1 = new Window_about1();
 
             if (win_1.ShowDialog() == true)
@@ -138,44 +138,45 @@ namespace Wood
 
             }
 
-
-            using (StreamWriter writer = new StreamWriter(file_name, true))
+            if (!curr_error)
             {
-                double prom_v;
+                using (StreamWriter writer = new StreamWriter(file_name, true))
+                {
+                    double prom_v;
 
-                DateTime date = DateTime.Now;
+                    DateTime date = DateTime.Now;
 
-                string str = String.Format("Создано {0:g}", date);
-                writer.Write(str);
-                writer.WriteLine();
-                
-                str = String.Format("{0,4}", "№") + String.Format("{0,16}", "Радиус №1") + String.Format("{0,16}", "Радиус №2") + String.Format("{0,16}", "Длина") + String.Format("{0,10}", "Тип") + String.Format("{0,18}", "Объем") + "\n";
-                writer.Write(str);
-                writer.WriteLine();
-
-                for (int i = 0;i < count; i++)
-                {    
-                    str = "";
-
-                    prom_v = timber_list[i].V();
-                    V += prom_v;
-
-                    str += String.Format("{0,4}", i + 1);
-                    str += timber_list[i].ToString();
-                    str += String.Format("{0,30:#.0000}", prom_v);
+                    string str = String.Format("Создано {0:g}", date);
                     writer.Write(str);
+                    writer.WriteLine();
+
+                    str = String.Format("{0,4}", "№") + String.Format("{0,19}", "Радиус №1") + String.Format("{0,19}", "Радиус №2") + String.Format("{0,18}", "Длина") + String.Format("{0,12}", "Тип") + String.Format("{0,34}", "Объем") + "\n";
+                    writer.Write(str);
+                    writer.WriteLine();
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        str = "";
+
+                        prom_v = timber_list[i].V();
+                        V += prom_v;
+
+                        str += String.Format("{0,4}", i + 1);
+                        str += timber_list[i].ToString();
+                        str += String.Format("{0,30:#0.0000} м^3", prom_v);
+                        writer.Write(str);
+                        writer.WriteLine();
+                    }
+
+                    str = "ВСЕГО" + String.Format("{0,97:#0.0000} м^3", V);
+                    writer.Write(str);
+
+                    writer.WriteLine();
                     writer.WriteLine();
                 }
 
-                str = "ВСЕГО" + String.Format("{0,87:#.0000}", V);
-                writer.Write(str);
-                
-                writer.WriteLine();
-                writer.WriteLine();
+                MessageBox.Show("Результат записан в файл result.txt", "Complete");
             }
-
-            MessageBox.Show("Результат записан в файл result.txt", "Complete");
-
         }
 
         private void button_V_simple_Click(object sender, RoutedEventArgs e)
@@ -217,25 +218,28 @@ namespace Wood
 
             }
 
-            for (int i = 0; i < count;i++)
+            if (!curr_error)
             {
-                V += timber_list[i].V();
-            }
+                for (int i = 0; i < count; i++)
+                {
+                    V += timber_list[i].V();
+                }
 
-            string message_res = "Общий объем колод: " + String.Format("{0,30:#.0000}", V);
-            MessageBox.Show(message_res, "Complete");
+                string message_res = "Общий объем колод: " + String.Format("{0,34:#0.0000} м^3", V);
+                MessageBox.Show(message_res, "Complete");
+            }
         }
 
         private void comboBox_Type_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (comboBox_Type.SelectedIndex == 0)
             {
-                image.Source = new BitmapImage(new Uri("F:\\C\\DIMA\\C#\\soft_task\\Wood\\Wood\\cilinder.bmp"));
+                image.Source = new BitmapImage(new Uri(@"Resources\cilinder.bmp", UriKind.Relative));
                 textBoxR2.IsEnabled = false;
             }
             else
             {
-                image.Source = new BitmapImage(new Uri("F:\\C\\DIMA\\C#\\soft_task\\Wood\\Wood\\conus.bmp"));
+                image.Source = new BitmapImage(new Uri(@"Resources\conus.bmp", UriKind.Relative));
                 textBoxR2.IsEnabled = true;
             }
         }
@@ -269,7 +273,10 @@ namespace Wood
                             timber_list = new List<Cilinder>();
                             curr_error = true;
                             NBox.Items.Clear();
-
+                            textBoxL.Text = prom.L.ToString();
+                            textBoxR1.Text = (prom.R1 * 100).ToString();
+                            textBoxR2.Text = (prom.R2 * 100).ToString();
+                            comboBox_Type.SelectedIndex = (int)prom.Type;
 
                             for (int i = 0; i < count; i++)
                             {
@@ -345,8 +352,8 @@ namespace Wood
                     {
                         prom = timber_list[previous];
                         textBoxL.Text = prom.L.ToString();
-                        textBoxR1.Text = prom.R1.ToString();
-                        textBoxR2.Text = prom.R2.ToString();
+                        textBoxR1.Text = (prom.R1 * 100).ToString();
+                        textBoxR2.Text = (prom.R2 * 100).ToString();
                         comboBox_Type.SelectedIndex = (int)prom.Type;
                     }
                 }

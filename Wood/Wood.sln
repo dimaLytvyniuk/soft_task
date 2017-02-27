@@ -1,9 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wood", "Wood\Wood.csproj", "{6F16337F-42DC-4961-BDD5-8982875B77C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{980DE610-1CB6-4A3A-8144-72B5ED435D14}"
+	ProjectSection(SolutionItems) = preProject
+		Wood\cilinder.bmp = Wood\cilinder.bmp
+		Wood\conus.bmp = Wood\conus.bmp
+		Wood\forest_6.bmp = Wood\forest_6.bmp
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

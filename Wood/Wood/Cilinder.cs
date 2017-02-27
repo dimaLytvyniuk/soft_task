@@ -67,21 +67,21 @@ namespace Wood
 
             if (r1 < r2 || type == 0)
             {
-                this.r1 = r1;
-                this.r2 = r2;
+                this.r1 = r1 / 100;
+                this.r2 = r2 / 100;
             }
             else
             {
-                this.r1 = r2;
-                this.r2 = r1;
+                this.r1 = r2 / 100;
+                this.r2 = r1 / 100;
             }
 
             if (type == timber_type.conus)
             {
-                if (l < ((this.r2 - this.r1) / 2))
+                if (l < (this.r2 - this.r1))
                     throw new pifagorException("L должно быть больше за R2 - R1");
 
-                h = (float)Math.Sqrt(Math.Pow(l, 2) - Math.Pow(r2 - r1, 2));
+                h = (float)Math.Sqrt(Math.Pow(l, 2) - Math.Pow(this.r2 - this.r1, 2));
             }
 
             this.l = l;
@@ -98,7 +98,7 @@ namespace Wood
             if (type == timber_type.cilinder)
                 value = (float)Math.PI * r1 * r1 * l;
             else
-                value = (float)(Math.PI * h * (Math.Pow(r1, 2) + Math.Pow(r2, 2) + r2 * r1)) / 3;// V conus
+                value = (float)(Math.PI * l * (Math.Pow(r1, 2) + Math.Pow(r2, 2)) / 2) ;// V conus
 
             return value;
         }
@@ -107,19 +107,19 @@ namespace Wood
         {
             string result = "";
 
-            result = String.Format("{0,16}", r1.ToString());
+            result = String.Format("{0,16} см", r1.ToString());
 
             if (type == 0)
-                result += String.Format("{0,16}"," ");
+                result += String.Format("{0,19}"," ");
             else
-                result += String.Format("{0,16}", r2.ToString());
+                result += String.Format("{0,16} см", r2.ToString());
 
-            result += String.Format("{0,16}", l.ToString());
+            result += String.Format("{0,16} м", l.ToString());
 
             if (type == 0)
-                result += String.Format("{0,10}", "Цилиндр");
+                result += String.Format("{0,12}", "Цилиндр");
             else
-                result += String.Format("{0,10}", "Конус");
+                result += String.Format("{0,12}", "Конус");
 
             return result;
         }
