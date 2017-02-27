@@ -18,12 +18,12 @@
             <System:String>Конус</System:String>
         </ComboBox>
         <Image x:Name="image" HorizontalAlignment="Left" Height="211" Margin="420,65,0,0" VerticalAlignment="Top" Width="325"/>
-        <Label x:Name="label_num" Content="№ Колоды" HorizontalAlignment="Left" Height="33" Margin="142,27,0,0" VerticalAlignment="Top" Width="96" FontFamily="Yu Gothic UI Semibold" FontSize="17" Foreground="#FFEEDD82"/>
-        <Label x:Name="label_R1" Content="R1" HorizontalAlignment="Left" Height="33" Margin="72,119,0,0" VerticalAlignment="Top" Width="27" FontFamily="Yu Gothic UI Semibold" FontSize="17" Foreground="#FFEEDD82"/>
+        <Label x:Name="label_num" Content="№ Колоды" HorizontalAlignment="Left" Height="33" Margin="142,27,0,0" VerticalAlignment="Top" Width="96" FontFamily="Segoe UI Semibold" FontSize="17" Foreground="#FFEEDD82"/>
+        <Label x:Name="label_R1" Content="R1" HorizontalAlignment="Left" Height="33" Margin="72,119,0,0" VerticalAlignment="Top" Width="27" FontFamily="Segoe UI Semibold" FontSize="17" Foreground="#FFEEDD82"/>
         <Label x:Name="label_R2" Content="R2" HorizontalAlignment="Left" Height="33" Margin="272,119,0,0" VerticalAlignment="Top" Width="30" FontFamily="Yu Gothic UI Semibold" FontSize="17" Foreground="#FFEEDD82"/>
         <Label x:Name="label_L" Content="L" HorizontalAlignment="Left" Height="33" Margin="76,211,0,0" VerticalAlignment="Top" Width="19" FontFamily="Yu Gothic UI Semibold" FontSize="17" Foreground="#FFEEDD82"/>
         <Label x:Name="label_Type" Content="Тип колоды" HorizontalAlignment="Left" Height="33" Margin="231,211,0,0" VerticalAlignment="Top" Width="107" FontFamily="Yu Gothic UI Semibold" FontSize="17" Foreground="#FFEEDD82"/>
-        <Button x:Name="button_change" Content="Изменить количество колод и перезапустить программу" HorizontalAlignment="Left" Height="21" Margin="420,12,0,0" VerticalAlignment="Top" Width="325" Background="#FFEEDD82" FontFamily="Yu Gothic UI Semilight" Click="button_change_Click"/>
+        <Button x:Name="button_change" Content="Изменить количество колод и перезапустить программу" HorizontalAlignment="Left" Height="21" Margin="420,12,0,0" VerticalAlignment="Top" Width="325" Background="#FFEEDD82" FontFamily="Segoe UI Semilight" Click="button_change_Click"/>
         <Button x:Name="button_V" Content="Подсчитать общий объем колод: таблица данных" HorizontalAlignment="Left" Height="31" Margin="420,316,0,0" VerticalAlignment="Top" Width="325" FontFamily="Yu Gothic UI Semilight" FontSize="14" Background="#FFEEDD82" Click="button_Click"/>
         <Button x:Name="button_V_simple" Content="Подсчитать общий объем колод: только результат" HorizontalAlignment="Left" Height="31" Margin="20,316,0,0" VerticalAlignment="Top" Width="340" FontFamily="Yu Gothic UI Semilight" FontSize="14" Background="#FFEEDD82" Click="button_V_simple_Click"/>
 
