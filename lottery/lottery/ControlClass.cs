@@ -81,5 +81,15 @@ namespace lottery
             else
                 MessageBox.Show("Немає даних", "Помилка");
         }
+
+        public void PrintNewFile()
+        {
+            if (solution != null)
+            {
+                solution.PrintToNewBalls("new_editions.txt");
+            }
+            else
+                MessageBox.Show("Немає даних", "Помилка");
+        }
     }
 }

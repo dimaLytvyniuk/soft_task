@@ -32,7 +32,9 @@ namespace lottery
         {
             controlObject.OpenFile();
             controlObject.Analiz();
-            MessageBox.Show("Complete", "Помилка");
+            controlObject.PrintNewFile();
+
+            MessageBox.Show("Complete", "Повідомлення");
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
