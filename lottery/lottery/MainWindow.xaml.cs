@@ -25,16 +25,13 @@ namespace lottery
         public MainWindow()
         {
             InitializeComponent();
-            controlObject = new ControlClass(6,true,1,42);
         }
 
         private void button_Click(object sender, RoutedEventArgs e)
         {
-            controlObject.OpenFile();
-            controlObject.Analiz();
-            controlObject.PrintNewFile();
+            controlObject = new ControlClass("6", true, "1", "42","30","40");
 
-            MessageBox.Show("Complete", "Повідомлення");
+            controlObject.OpenFile();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -44,12 +41,41 @@ namespace lottery
 
         private void button_disEditions_Click(object sender, RoutedEventArgs e)
         {
-            controlObject.DisplayEditions();
+            if (controlObject != null)
+                controlObject.DisplayEditions();
         }
 
         private void button_countBalls_Click(object sender, RoutedEventArgs e)
         {
-            controlObject.DisplaySumImov();
+            if (controlObject != null)
+                controlObject.DisplaySumImov();
+        }
+
+        private void button_countBalls_Gen_Click(object sender, RoutedEventArgs e)
+        {
+            if (controlObject != null)
+                controlObject.DisplaySunImovGen();
+        }
+
+        private void button_disEditions_Gen_Click(object sender, RoutedEventArgs e)
+        {
+            if (controlObject != null)
+                controlObject.DisplayEditionsGen();
+        }
+
+        private void button_printFileEdi_Click(object sender, RoutedEventArgs e)
+        {
+            if (controlObject != null)
+                controlObject.PrintToFileStart();
+        }
+
+        private void button_Gen_Click(object sender, RoutedEventArgs e)
+        {
+            if (controlObject != null)
+            {
+                controlObject.Analiz();
+                controlObject.PrintNewFile();
+            }
         }
     }
 }

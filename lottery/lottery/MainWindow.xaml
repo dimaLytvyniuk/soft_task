@@ -5,11 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lottery"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" Closing="Window_Closing">
-    <Grid>
-        <Button x:Name="button" Content="Открыть файл для считывания тиражей" HorizontalAlignment="Left" Height="42" Margin="94,100,0,0" VerticalAlignment="Top" Width="232" Click="button_Click"/>
-        <Button x:Name="button_disEditions" Content="Відобразити тиражі" HorizontalAlignment="Left" Margin="94,177,0,0" VerticalAlignment="Top" Width="232" Height="40" Click="button_disEditions_Click"/>
-        <Button x:Name="button_countBalls" Content="Відобразити к-сть випадань шарів" HorizontalAlignment="Left" Margin="94,256,0,0" VerticalAlignment="Top" Width="232" Height="40" Click="button_countBalls_Click"/>
+        Title="MainWindow" Height="600" Width="800" Closing="Window_Closing">
+    <Grid RenderTransformOrigin="0.532,0.511">
+        <GroupBox x:Name="groupBox" Header="Вивід даних" HorizontalAlignment="Left" Margin="383,29,0,0" VerticalAlignment="Top" Height="422" Width="381" RenderTransformOrigin="0.5,0.5" BorderBrush="#FF767676">
+            <GroupBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0.843"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="2.485"/>
+                </TransformGroup>
+            </GroupBox.RenderTransform>
+            <StackPanel>
+                <Button x:Name="button_disEditions" Content="Відобразити початкові тиражі" HorizontalAlignment="Left" Margin="41,36,0,0" VerticalAlignment="Top" Width="275" Height="40" Click="button_disEditions_Click"/>
+                <Button x:Name="button_countBalls" Content="Відобразити к-сть випадань шарів на початку" HorizontalAlignment="Left" VerticalAlignment="Top" Width="275" Height="40" Click="button_countBalls_Click" Margin="41,36,0,0"/>
+                <Button x:Name="button_disEditions_Gen" Content="Відобразити згенеровані тиражі" HorizontalAlignment="Left" VerticalAlignment="Top" Width="275" Height="40" Click="button_disEditions_Gen_Click" Margin="41,36,0,0"/>
+                <Button x:Name="button_countBalls_Gen" Content="Відобразити к-сть випадань згенерованих шарів" HorizontalAlignment="Left" VerticalAlignment="Top" Width="275" Height="40" Click="button_countBalls_Gen_Click" Margin="41,36,0,0"/>
+                <Button x:Name="button_printFileEdi" Content="Записати у файл суми по вхідним даним" HorizontalAlignment="Left" VerticalAlignment="Top" Width="275" Height="40" Click="button_printFileEdi_Click" Margin="41,36,0,0"/>
+            </StackPanel>
+        </GroupBox>
+        <Button x:Name="button" Content="Відкрити файл для зчитування тиражів" HorizontalAlignment="Left" Height="42" Margin="40,260,0,0" VerticalAlignment="Top" Width="275" Click="button_Click"/>
+        <Button x:Name="button_Gen" Content="Згенерувати нові тиражі" HorizontalAlignment="Left" Height="42" Margin="40,333,0,0" VerticalAlignment="Top" Width="275" Click="button_Gen_Click"/>
 
     </Grid>
 </Window>

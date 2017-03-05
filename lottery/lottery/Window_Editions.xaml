@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lottery"
         mc:Ignorable="d"
-        Title="Тиражі" Height="326.163" Width="444.768" ResizeMode="CanMinimize">
+        Title="Тиражі" Height="700" Width="444.768" ResizeMode="CanMinimize">
     <Grid>
-        <DataGrid x:Name="editionsGrid" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="263" Width="412"/>
+        <DataGrid x:Name="editionsGrid" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="631" Width="412"/>
 
     </Grid>
 </Window>
