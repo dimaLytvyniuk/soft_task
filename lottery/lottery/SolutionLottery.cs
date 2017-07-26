@@ -26,6 +26,8 @@ namespace lottery
         List<int> superBalls;//зберігає супер кульки
         Charactiks sumCharact;
 
+        string paramsfile = "";
+
         int k,//кількість шарів у тиражі
             minV,//мінімальний номер кульки
             maxV,//максимальний номер кульки
@@ -35,6 +37,8 @@ namespace lottery
             endN;
 
         bool superBall;//чи використовується суперкулька
+        int[] parn;
+        int[,] decades;
 
         /*
          * SolutionLottery - конструктор класу
@@ -53,11 +57,6 @@ namespace lottery
 
             if (superBall)
                 superBalls = new List<int>();
-
-            for (int i = minV; i <= maxV; i++)
-            {
-                countBalls.Add(i, 0);
-            }
         }
 
         /*
@@ -72,6 +71,27 @@ namespace lottery
             {
                 string str = "";
                 List<int> prom;
+
+                string start = reader.ReadLine();
+
+                string[] words = start.Split(' ');
+
+                try
+                {
+                    k = Convert.ToInt32(words[0]);
+                    minV = Convert.ToInt32(words[1]);
+                    maxV = Convert.ToInt32(words[2]);
+
+                    for (int i = minV; i <= maxV; i++)
+                    {
+                        countBalls.Add(i, 0);
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Некоректні вхідні дані","Error");
+                    return false;
+                }
 
                 //циклу ситування рядок за рядком
                 while ((str = reader.ReadLine()) != null)
@@ -98,17 +118,21 @@ namespace lottery
 
             if (startN < countOfEditions && startN > 0 && endN > 1 && endN <= countOfEditions)
             {
-                for (int i = startN - 1; i < endN - 1;i++)
+                for (int i = startN - 1; i < endN;i++)
                 {
                     editions.Add(fileEdition[i]);
                 }
 
                 countOfEditions = editions.Count;
+
+                parn = new int[countOfEditions];
+                decades = new int[countOfEditions,5];
+
             }
             else
                 return false;
 
-            basicNum = countOfEditions / 8;//за базові береться 1/8 від кульок
+            basicNum = countOfEditions / 4;//за базові береться 1/8 від кульок
             CountOfHit();//підрахунок подань кожної кульки
             CountSumEditions();
 
@@ -172,7 +196,8 @@ namespace lottery
             col.Header = "Кількість випадань";
             col.Binding = new Binding("Value");
             sumImovGrid.Columns.Add(col);
-
+            DateTime date = DateTime.Now;
+            string fileName = date.ToString("MM_HH_mm_ss") + "sort_ball" + ".txt";
             List<KeyValuePair<int, int>> prom = countBalls.ToList<KeyValuePair<int, int>>();
 
             for (int i = 0; i < maxV; i++)
@@ -180,7 +205,7 @@ namespace lottery
                 sumImovGrid.Items.Add(prom[i]);
             }
 
-            using (StreamWriter writer = new StreamWriter("sort_balls.txt", false))
+            using (StreamWriter writer = new StreamWriter(fileName, false))
             {
                 foreach (KeyValuePair<int, int> promball in countBalls)
                 {
@@ -235,6 +260,19 @@ namespace lottery
             col_1.Binding = new Binding(string.Format("[{0}]", k));
             sumImovGrid.Columns.Add(col_1);
 
+            col_1 = new DataGridTextColumn();
+            col_1.Header = "Парні ";
+            col_1.Binding = new Binding(string.Format("[{0}]", k + 1));
+            sumImovGrid.Columns.Add(col_1);
+
+            for (int i = 0; i < 5;i++)
+            {
+                col_1 = new DataGridTextColumn();
+                col_1.Header = 10 * i;
+                col_1.Binding = new Binding(string.Format("[{0}]",i + k + 2));
+                sumImovGrid.Columns.Add(col_1);
+            }
+
             for (int i = 0,size = editions.Count; i < size; i++)
             {
                 sumImovGrid.Items.Add(editions[i]);
@@ -260,6 +298,19 @@ namespace lottery
                 col_1.Binding = new Binding(string.Format("[{0}]", k));
                 sumImovGrid.Columns.Add(col_1);
 
+                col_1 = new DataGridTextColumn();
+                col_1.Header = "Парні ";
+                col_1.Binding = new Binding(string.Format("[{0}]", k + 1));
+                sumImovGrid.Columns.Add(col_1);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    col_1 = new DataGridTextColumn();
+                    col_1.Header = 10 * i;
+                    col_1.Binding = new Binding(string.Format("[{0}]", i + k + 2));
+                    sumImovGrid.Columns.Add(col_1);
+                }
+
                 for (int i = 0, size = newEdition.Count; i < size; i++)
                 {
                     sumImovGrid.Items.Add(newEdition[i]);
@@ -273,7 +324,8 @@ namespace lottery
 
         public void PrintToFileStart()
         {
-            using (StreamWriter writer = new StreamWriter("sort_balls_start.txt", false))
+            DateTime date = DateTime.Now;
+            using (StreamWriter writer = new StreamWriter(date.ToString("MM_HH_mm_ss") + "sort_balls_start" + ".txt", false))
             {
                 foreach (KeyValuePair<int, int> promball in countBalls)
                 {
@@ -281,7 +333,7 @@ namespace lottery
                 }
             }
 
-            using (StreamWriter writer = new StreamWriter("editions_start.txt", false))
+            using (StreamWriter writer = new StreamWriter(date.ToString("MM_HH_mm_ss") + "editions_start" + ".txt", false))
             {
                 string str = "";
 
@@ -309,9 +361,28 @@ namespace lottery
                 for (int j = 0; j < k; j++)
                 {
                     sum += countBalls[editions[i][j]];
+
+                    if ((editions[i][j] % 2) == 0)
+                        parn[i]++;
+
+                    if (editions[i][j] / 10 == 0)
+                        decades[i, 0]++;
+                    else if (editions[i][j] / 20 == 0)
+                        decades[i, 1]++;
+                    else if (editions[i][j] / 30 == 0)
+                        decades[i, 2]++;
+                    else if (editions[i][j] / 40 == 0)
+                        decades[i, 3]++;
+                    else
+                        decades[i, 4]++;
                 }
 
                 editions[i].Add(sum);
+                editions[i].Add(parn[i]);
+
+                for (int j = 0; j < 5; j++)
+                    editions[i].Add(decades[i,j]);
+
             }
 
             sumCharact = new Charactiks(0, 0);
@@ -416,7 +487,7 @@ namespace lottery
             return res;
         }
 
-        public void Analiz()
+        public void Analiz(int type)
         {
             Dictionary<int, int> countLess = new Dictionary<int, int>();
             Dictionary<int, int> countMore = new Dictionary<int, int>();
@@ -426,12 +497,20 @@ namespace lottery
             List<List<int>> generBalls = new List<List<int>>();
             List<int> sumig = new List<int>();
 
+            /*
             Charactiks moreChare,
                        lessChare,
                        inChare;
+                       */
+
+            int moreChare = 0,
+                lessChare = 0,
+                inChare = 0;
 
             Charactiks charactiks = CountCharactiks();
-
+            paramsfile = "StartN = " + startN + " EndN= " + endN + " minSum = " + sumCharact.MinInterval + " maxSum = " + sumCharact.MaxInterval;
+             
+            /*
             for (int i = basicNum; i < countOfEditions; i++)
             {
                 if (countLess.ContainsKey(countIntervals[i].Less))
@@ -469,28 +548,36 @@ namespace lottery
             moreChare.MX = Math.Round(moreChare.MX, MidpointRounding.AwayFromZero);
             lessChare.MX = Math.Round(lessChare.MX, MidpointRounding.AwayFromZero);
             inChare.MX = Math.Round(inChare.MX, MidpointRounding.AwayFromZero);
+            */
 
-            SortBalls(charactiks, ref generBalls, (int)moreChare.MX, (int)lessChare.MX, (int)inChare.MX);
-            /*
-            for (int i = 0; i < countOfEditions; i++)
+
+
+            switch(type)
             {
-                if (countSumInterval.ContainsKey(editions[i][k]))
-                {
-                    countSumInterval[editions[i][k]]++;
-                }
-                else
-                {
-                    countSumInterval.Add(editions[i][k], 1);
-                }
+                case 0:
+                    moreChare = 2;
+                    lessChare = 1;
+                    inChare = 3;
+                    SortBalls(charactiks, ref generBalls, moreChare, lessChare, inChare);
+                    GenerateNewEdition132(generBalls, new Interval(moreChare, lessChare, inChare));
+                    break;
+                case 1:
+                    moreChare = 1;
+                    lessChare = 1;
+                    inChare = 4;
+                    SortBalls(charactiks, ref generBalls, moreChare, lessChare, inChare);
+                    GenerateNewEdition141(generBalls, new Interval(moreChare, lessChare, inChare));
+                    break;
+                case 2:
+                    moreChare = 2;
+                    lessChare = 0;
+                    inChare = 4;
+                    SortBalls(charactiks, ref generBalls, moreChare, lessChare, inChare);
+                    GenerateNewEdition042(generBalls, new Interval(moreChare, lessChare, inChare));
+                    break;
             }
 
-            sumChare = PromCharacticks(countSumInterval);
-
-    */
-
-            GenerateNewEdition(generBalls, new Interval((int)moreChare.MX, (int)lessChare.MX, (int)inChare.MX));
-
-            FrequenceNew((int)lessChare.MX, (int)moreChare.MX, (int)inChare.MX);
+            FrequenceNew(lessChare, moreChare, inChare);
         }
 
         private void SortBalls(Charactiks characticks, ref List<List<int>> resBalls, int moreChare, int lessChare, int inChare)
@@ -502,7 +589,7 @@ namespace lottery
             {
                 if (countBalls[i] < characticks.MinInterval)
                 {
-                    for (int j = 0; j < lessChare && j < lessChare; j++)
+                    for (int j = 0; j < lessChare; j++)
                     {
                         resBalls[j].Add(i);
                     }
@@ -534,7 +621,7 @@ namespace lottery
 
             for (int i = inChare + lessChare; i < k - 1; i++)
             {
-                for (int size = resBalls[i].Count, j = size - 1; (j > size - moreChare + i); j--)
+                for (int size = resBalls[i].Count, j = size - 1; (j > size - moreChare + i - inChare - lessChare); j--)
                 {
                     resBalls[i].RemoveAt(j);
                 }
@@ -549,7 +636,8 @@ namespace lottery
             }
         }
 
-        public void GenerateNewEdition(List<List<int>> generBalls, Interval intervals)
+        
+        public void GenerateNewEdition141(List<List<int>> generBalls, Interval intervals)
         {
             int varLess = FindC(intervals.Less, generBalls[intervals.Less - 1].Count),
                 varIn = FindC(intervals.InInterval, generBalls[intervals.InInterval + intervals.Less - 1].Count),
@@ -702,6 +790,279 @@ namespace lottery
             
         }
 
+        public void GenerateNewEdition132(List<List<int>> generBalls, Interval intervals)
+        {
+            int varLess = FindC(intervals.Less, generBalls[intervals.Less - 1].Count),
+                varIn = FindC(intervals.InInterval, generBalls[intervals.InInterval + intervals.Less - 1].Count),
+                varMore = FindC(intervals.More, generBalls[intervals.InInterval + intervals.Less + intervals.More - 1].Count),
+                n = varLess * varIn * varMore;
+
+            newEdition = new List<List<int>>();
+            List<List<int>> promEdition = new List<List<int>>();
+
+            for (int i = 0; i < n; i++)
+                promEdition.Add(new List<int>());
+
+            if (intervals.Less > 1)
+            {
+                for (int q = 0; q < n / varLess; q++)
+                {
+                    for (int i = 0, countIter = 0; i < generBalls[0].Count; i++)
+                    {
+                        for (int j = 0; j < FindC(intervals.Less - 1, generBalls[intervals.Less - 1].Count - i - 1); j++, countIter++)
+                        {
+                            promEdition[countIter].Add(generBalls[0][i]);
+                        }
+                    }
+                }
+
+                for (int i = 1; i < intervals.Less; i++)
+                {
+                    for (int j = 0; j < generBalls[i].Count; j++)
+                    {
+                        for (int l = 0, prom = 0; l < n; l++)
+                        {
+                            if ((generBalls[i][j] > promEdition[i][l - 1]) && (promEdition[i].Count == i))
+                            {
+                                prom = FindC(intervals.Less - i - 1, generBalls[intervals.Less - 1].Count - j - 1);
+
+                                for (int t = 0; t < prom; t++)
+                                {
+                                    promEdition[l + t].Add(generBalls[i][j]);
+                                }
+
+                                l += prom - 1;
+
+                                while (generBalls[i][j] > promEdition[i][l - 1])
+                                    l++;
+                            }
+                        }
+                    }
+                }
+
+            }
+            else
+            {
+                for (int i = 0; i < varLess; i++)
+                {
+                    for (int j = 0, count = n / varLess; j < count; j++)
+                    {
+                        promEdition[j + i * count].Add(generBalls[0][i]);
+                    }
+                }
+            }
+
+            if (intervals.InInterval > 1)
+            {
+                for (int q = 0, countIter = 0; q < n / varIn; q++)
+                {
+                    for (int i = 0; i < generBalls[intervals.Less].Count; i++)
+                    {
+                        for (int j = 0; j < FindC(intervals.InInterval - 1, generBalls[intervals.InInterval - 1].Count - i); j++)
+                        {
+                            promEdition[countIter].Add(generBalls[intervals.Less][i]);
+                            countIter++;
+                        }
+                    }
+                }
+
+                for (int i = intervals.Less + 1, countI = intervals.Less + intervals.InInterval - 1, countIter = 0, current = 0; i < countI; i++)
+                {
+                    countIter = 0;
+
+                    while (countIter < n)
+                    {
+                        current = generBalls[i - intervals.Less].IndexOf(promEdition[countIter][i - 1]);
+
+                        for (int l = current + 1, countL = generBalls[i].Count; l < countL; l++)
+                        {
+                            for (int q = 0, countQ = FindC(intervals.InInterval - i + intervals.Less - 1, generBalls[intervals.InInterval + intervals.Less - 1].Count - l - 1); q < countQ && countIter < n; q++)
+                            {
+                                promEdition[countIter].Add(generBalls[i][l]);
+                                countIter++;
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0, num = 0; i < n; i++)
+                {
+                    num = promEdition[i][intervals.Less + intervals.InInterval - 2];
+                    i--;
+
+                    for (int j = generBalls[intervals.Less + intervals.InInterval - 1].IndexOf(num) + 1; j < generBalls[intervals.Less + intervals.InInterval - 1].Count; j++)
+                    {
+                        i++;
+                        promEdition[i].Add(generBalls[intervals.Less + intervals.InInterval - 1][j]);
+                    }
+                }
+
+            }
+            else
+            {
+                for (int i = 0; i < varIn; i++)
+                {
+                    for (int j = 0, count = n / varIn; j < count; j++)
+                    {
+                        promEdition[j + i * count].Add(generBalls[intervals.Less][i]);
+                    }
+                }
+            }
+
+            if (intervals.More > 1)
+            {
+                for (int l = 0, countIter = 0; l < generBalls[0].Count; l++)
+                {
+                    for (int i = 0; i < generBalls[intervals.InInterval + intervals.Less].Count; i++)
+                    {
+                        int countProbablies = (generBalls[intervals.InInterval + intervals.Less].Count - i);
+
+                        for (int j = i + 1; j <= countProbablies + i; j++)
+                        {
+                            for (int q = 0; q < varIn; q++)
+                            {
+                                promEdition[countIter].Add(generBalls[intervals.Less + intervals.InInterval][i]);
+                                promEdition[countIter].Add(generBalls[k - 1][j]);
+                                countIter++;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < varMore; i++)
+                {
+                    for (int l = 0, pos = i * varIn; l < varLess; l++)
+                    {
+                        for (int j = 0; j < varIn; j++)
+                        {
+                            promEdition[j + pos].Add(generBalls[k - 1][i]);
+                        }
+
+                        pos += varMore * varIn;
+                    }
+                }
+            }
+
+
+            for (int i = 0, sum = 0, size = promEdition.Count; i < size; i++)
+            {
+                for (int j = 0; j < k; j++)
+                    sum += countBalls[promEdition[i][j]];
+
+                if (sum < sumCharact.MaxInterval && sum > sumCharact.MinInterval)
+                    newEdition.Add(promEdition[i]);
+
+                sum = 0;
+            }
+
+        }
+
+        public void GenerateNewEdition042(List<List<int>> generBalls, Interval intervals)
+        {
+            int varIn = FindC(intervals.InInterval, generBalls[intervals.InInterval - 1].Count),
+                varMore = FindC(intervals.More, generBalls[intervals.InInterval + intervals.Less + intervals.More - 1].Count),
+                n = varIn * varMore;
+
+            newEdition = new List<List<int>>();
+            List<List<int>> promEdition = new List<List<int>>();
+
+            for (int i = 0; i < n; i++)
+                promEdition.Add(new List<int>());
+
+            if (intervals.InInterval > 1)
+            {
+                for (int q = 0, countIter = 0; q < varMore; q++)
+                {
+                    for (int i = 0; i < generBalls[0].Count; i++)
+                    {
+                        for (int j = 0; j < FindC(intervals.InInterval - 1, generBalls[intervals.InInterval - 2].Count - i); j++)
+                        {
+                            promEdition[countIter].Add(generBalls[0][i]);
+                            countIter++;
+                        }
+                    }
+                }
+
+                for (int i = 1, countI = intervals.InInterval - 1, countIter = 0, current = 0; i < countI; i++)
+                {
+                    countIter = 0;
+
+                    while (countIter < n)
+                    {
+                        current = generBalls[i].IndexOf(promEdition[countIter][i - 1]);
+
+                        for (int l = current + 1, countL = generBalls[i].Count; l < countL; l++)
+                        {
+                            for (int q = 0, countQ = FindC(intervals.InInterval - i - 1, generBalls[intervals.InInterval - 1].Count - l - 1); q < countQ && countIter < n; q++)
+                            {
+                                promEdition[countIter].Add(generBalls[i][l]);
+                                countIter++;
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0, num = 0; i < n; i++)
+                {
+                    num = promEdition[i][intervals.InInterval - 2];
+                    i--;
+
+                    for (int j = generBalls[intervals.InInterval - 1].IndexOf(num) + 1; j < generBalls[intervals.InInterval - 1].Count; j++)
+                    {
+                        i++;
+                        promEdition[i].Add(generBalls[intervals.InInterval - 1][j]);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < varIn; i++)
+                {
+                    for (int j = 0, count = n / varIn; j < count; j++)
+                    {
+                        promEdition[j + i * count].Add(generBalls[intervals.Less][i]);
+                    }
+                }
+            }
+
+            if (intervals.More > 1)
+            {
+                for (int i = 0, countIter = 0; i < generBalls[intervals.InInterval].Count; i++)
+                {
+                    int countProbablies = (generBalls[intervals.InInterval].Count - i);
+
+                    for (int j = 1; j <= countProbablies; j++)
+                    {
+                        for (int q = 0; q < varIn; q++)
+                        {
+                            promEdition[countIter].Add(generBalls[intervals.InInterval][i]);
+                            promEdition[countIter].Add(generBalls[k - 1][j]);
+                            countIter++;
+                        }
+                    }
+                }
+            }
+            else
+            {
+            }
+
+
+            for (int i = 0, sum = 0, size = promEdition.Count; i < size; i++)
+            {
+                for (int j = 0; j < k; j++)
+                    sum += countBalls[promEdition[i][j]];
+
+                if (sum < sumCharact.MaxInterval && sum > sumCharact.MinInterval)
+                newEdition.Add(promEdition[i]);
+
+                sum = 0;
+            }
+
+        }
+
+
         private int FindC(int up, int down)
         {
             int res = 0;
@@ -746,8 +1107,9 @@ namespace lottery
             List<int> sortLess = new List<int>(),
                       sortMore = new List<int>(),
                       sortIn = new List<int>();
-
-            for (int i = 0, n = newEdition.Count; i < n; i++)
+            DateTime date = DateTime.Now;
+            string fileName = date.ToString("MM_HH_mm_ss") + "sort_balls_after" + ".txt";
+            for (int i = 0, size = newEdition.Count; i < size; i++)
             {
                 for (int j = 0; j < lessChare; j++)
                 {
@@ -790,15 +1152,21 @@ namespace lottery
                 freeBalls.Add(sortMore[i]);
 
 
-            using (StreamWriter writer = new StreamWriter("sort_balls_after.txt", false))
+            using (StreamWriter writer = new StreamWriter(fileName, false))
             {
+                writer.WriteLine(paramsfile);
                 writer.WriteLine("Less :");
                 string str = "";
+
+                for (int i = minV;i <= maxV;i++)
+                {
+                    countBallsGen.Add(i, 0);
+                }
 
                 for (int i = 0; i < countBallsLess.Count; i++)
                 {
                     str = String.Format("{0,5}{1,12}", sortLess[i], countBallsLess[sortLess[i]]);
-                    countBallsGen.Add(sortLess[i], countBallsLess[sortLess[i]]);
+                    countBallsGen[sortLess[i]] = countBallsLess[sortLess[i]];
                     writer.WriteLine(str);
                 }
 
@@ -808,7 +1176,7 @@ namespace lottery
                 for (int i = 0; i < countBallsIn.Count; i++)
                 {
                     str = String.Format("{0,5}{1,12}", sortIn[i], countBallsIn[sortIn[i]]);
-                    countBallsGen.Add(sortIn[i], countBallsIn[sortIn[i]]);
+                    countBallsGen[sortIn[i]] = countBallsIn[sortIn[i]];
                     writer.WriteLine(str);
                 }
 
@@ -818,28 +1186,44 @@ namespace lottery
                 for (int i = 0; i < countBallsMore.Count; i++)
                 {
                     str = String.Format("{0,5}{1,12}", sortMore[i], countBallsMore[sortMore[i]]);
-                    countBallsGen.Add(sortMore[i], countBallsMore[sortMore[i]]);
+                    countBallsGen[sortMore[i]] = countBallsMore[sortMore[i]];
                     writer.WriteLine(str);
                 }
             }
-            
-            for (int i = 0, sum = 0, size = newEdition.Count; i < size; i++)
+
+            for (int i = 0, size = newEdition.Count; i < size; i++)
             {
-                for (int j = 0; j < lessChare; j++)
-                    sum += countBallsLess[newEdition[i][j]];
+                int[] decs = new int[5];
+                int paired = 0;
+                int sum = 0;
 
-                for (int j = lessChare; j < inChare + lessChare; j++)
-                    sum += countBallsIn[newEdition[i][j]];
+                for (int j = 0; j < k; j++)
+                {
+                    sum += countBalls[newEdition[i][j]];
 
-                for (int j = inChare + lessChare; j < k; j++)
-                    sum += countBallsMore[newEdition[i][j]];
+                    if ((newEdition[i][j] % 2) == 0)
+                        paired++;
+
+                    if (newEdition[i][j] / 10 == 0)
+                        decs[0]++;
+                    else if (newEdition[i][j] / 20 == 0)
+                        decs[1]++;
+                    else if (newEdition[i][j] / 30 == 0)
+                        decs[2]++;
+                    else if (newEdition[i][j] / 40 == 0)
+                        decs[3]++;
+                    else
+                        decs[4]++;
+                }
 
                 newEdition[i].Add(sum);
+                newEdition[i].Add(paired);
 
-                sum = 0;
+                for (int j = 0; j < 5; j++)
+                    newEdition[i].Add(decs[j]);
             }
-            
-            MessageBox.Show("Кількість випадань кульок у згенерованих тиражах записано у файл sort_balls_after.txt","Complete");
+
+            MessageBox.Show("Кількість випадань кульок у згенерованих тиражах записано у файл " + fileName,"Complete");
         }
 
         private List<int> SortByValue(Dictionary<int, int> input)
@@ -888,85 +1272,50 @@ namespace lottery
 
         public void PrintToNewBalls(string name)
         {
-            //QSortNew(0, newEdition.Count - 1);
-
             using (StreamWriter writer = new StreamWriter(name, false))
             {
                 for (int i = 0, size = newEdition.Count; i < size; i++)
                 {
                     string str = "";
 
+                    
+                    for (int j = 0; j < k - 1;j++)
+                    {
+                        for (int l = 0; l < k - j - 1; l++)
+                        {
+                            if (newEdition[i][l] > newEdition[i][l + 1])
+                            {
+                                int prom = newEdition[i][l];
+                                newEdition[i][l] = newEdition[i][l + 1];
+                                newEdition[i][l + 1] = prom;
+                            }
+                        }
+                    }
+                    
                     for (int j = 0; j < k; j++)
                     {
-                        str += String.Format("{0,4},", newEdition[i][j]);
+                        str += String.Format("{0},", newEdition[i][j]);
                     }
 
                     str += String.Format("{0,9}", newEdition[i][k]);
+
+                    for (int j = k + 1, sizeJ = newEdition[i].Count; j < sizeJ; j++)
+                        str += String.Format("{0},", newEdition[i][j]);
 
                     writer.WriteLine(str);
                 }
             }
         }
 
-        private void QSortNew(int start, int finish)
+        private void AddParnDecadesNewGen()
         {
-            List<int> prom;
 
-            try
-            {
-                if (finish - start > 20000)
-                {
+        }
 
-                    int wall = start,
-                        opor = finish;
-
-                    for (int i = start; i < finish; i++)
-                    {
-                        if (newEdition[i][k] <= newEdition[opor][k])
-                        {
-                            prom = newEdition[wall];
-                            newEdition[wall] = newEdition[i];
-                            newEdition[i] = prom;
-                            wall++;
-                        }
-                    }
-
-                    prom = newEdition[wall];
-                    newEdition[wall] = newEdition[opor];
-                    newEdition[opor] = prom;
-
-                    if (wall != 0 && (wall - 1 != 0))
-                        QSortNew(start, wall - 1);
-
-                    if (wall != finish && finish != 0)
-                        QSortNew(wall + 1, finish);
-                }
-                else if (finish - start != 0)
-                {
-                    for (int i = 0; i < (finish - start); i++)
-                    {
-                        bool swap = false;
-
-                        for (int j = start; j < finish - i; j++)
-                        {
-                            if (newEdition[j][k] > newEdition[j + 1][k])
-                            {
-                                prom = newEdition[j];
-                                newEdition[j] = newEdition[j + 1];
-                                newEdition[j + 1] = prom;
-                                swap = true;
-                            }
-                        }
-
-                        if (!swap)
-                            break;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                int y = 0;
-            }
+        public Charactiks SumCharat
+        {
+            get { return sumCharact; }
+            set { sumCharact = value; }
         }
     }
 

@@ -21,6 +21,8 @@ namespace lottery
         bool superBall,
             init;
 
+        string fileName = "";
+
         public ControlClass(String k, bool superBall,string minV,string maxV,string startN,string endN)
         {
             this.superBall = superBall;
@@ -89,7 +91,8 @@ namespace lottery
 
                 if (true == openFileDialog1.ShowDialog())
                 {
-                    if (solution.OpenFile(openFileDialog1.FileName))
+                    fileName = openFileDialog1.FileName;
+                    if (solution.OpenFile(fileName))
                     {
                         MessageBox.Show("Читання виконано", "Complete");
                         return true;
@@ -174,11 +177,11 @@ namespace lottery
                 MessageBox.Show("Немає даних", "Помилка");
         }
 
-        public void Analiz()
+        public void Analiz(int type)
         {
-            if (solution != null)
+            if (solution != null && type != -1)
             {
-                solution.Analiz();
+                solution.Analiz(type);
 
                 MessageBox.Show("Генерацію закінчено","Complete");
             }
@@ -190,7 +193,8 @@ namespace lottery
         {
             if (solution != null)
             {
-                solution.PrintToNewBalls("new_editions.txt");
+                DateTime date = DateTime.Now;
+                solution.PrintToNewBalls(date.ToString("MM_HH_mm_ss") + "new_editions" + ".txt");
                 MessageBox.Show("Згенеровані тиражі записані у файл new_editions.txt","Complete");
             }
             else
@@ -205,6 +209,55 @@ namespace lottery
             }
             else
                 MessageBox.Show("Немає даних", "Помилка");
+        }
+
+        public Charactiks SumChare
+        {
+            get {
+                    return solution.SumCharat;
+            }
+
+            set
+            {
+                if (solution != null)
+                    solution.SumCharat = value;
+            }
+        }
+
+        public bool ChangeInputV(string startN,string endN)
+        {
+            try
+            {
+                this.startN = Convert.ToInt32(startN);
+                this.endN = Convert.ToInt32(endN);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Некоректні вхідні дані", "Error");
+                return false;
+            }
+
+            if (fileName != "")
+            {
+                solution = new SolutionLottery(k, superBall, minV, maxV, this.startN, this.endN);
+
+                if (solution.OpenFile(fileName))
+                {
+                    MessageBox.Show("Complete", "Complete");
+                }
+                else
+                {
+                    MessageBox.Show("Некоректні вхідні дані", "Complete");
+                    return false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Некоректні вхідні дані", "Помилка");
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -5,17 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lottery"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" Closing="Window_Closing">
+        Title="MainWindow" Height="689.8" Width="850" Closing="Window_Closing">
     <Grid RenderTransformOrigin="0.532,0.511">
-        <GroupBox x:Name="groupBox" Header="Вивід даних" HorizontalAlignment="Left" Margin="383,29,0,0" VerticalAlignment="Top" Height="422" Width="381" RenderTransformOrigin="0.5,0.5" BorderBrush="#FF767676">
-            <GroupBox.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0.843"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="2.485"/>
-                </TransformGroup>
-            </GroupBox.RenderTransform>
+        <GroupBox x:Name="groupBox" Header="Вивід даних" HorizontalAlignment="Left" Margin="435,32,0,0" VerticalAlignment="Top" Height="422" Width="374" RenderTransformOrigin="0.5,0.5" BorderBrush="#FF767676">
             <StackPanel>
                 <Button x:Name="button_disEditions" Content="Відобразити початкові тиражі" HorizontalAlignment="Left" Margin="41,36,0,0" VerticalAlignment="Top" Width="275" Height="40" Click="button_disEditions_Click"/>
                 <Button x:Name="button_countBalls" Content="Відобразити к-сть випадань шарів на початку" HorizontalAlignment="Left" VerticalAlignment="Top" Width="275" Height="40" Click="button_countBalls_Click" Margin="41,36,0,0"/>
@@ -24,8 +16,65 @@
                 <Button x:Name="button_printFileEdi" Content="Записати у файл суми по вхідним даним" HorizontalAlignment="Left" VerticalAlignment="Top" Width="275" Height="40" Click="button_printFileEdi_Click" Margin="41,36,0,0"/>
             </StackPanel>
         </GroupBox>
-        <Button x:Name="button" Content="Відкрити файл для зчитування тиражів" HorizontalAlignment="Left" Height="42" Margin="40,260,0,0" VerticalAlignment="Top" Width="275" Click="button_Click"/>
-        <Button x:Name="button_Gen" Content="Згенерувати нові тиражі" HorizontalAlignment="Left" Height="42" Margin="40,333,0,0" VerticalAlignment="Top" Width="275" Click="button_Gen_Click"/>
-
+        <GroupBox x:Name="groupBox1" Header="Вхідні дані" HorizontalAlignment="Left" Margin="30,32,0,0" VerticalAlignment="Top" Height="322" Width="381" BorderBrush="#FF767676">
+            <StackPanel>
+                <Grid Height="303">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="73"/>
+                        <RowDefinition Height="83"/>
+                        <RowDefinition Height="146"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="106"/>
+                        <ColumnDefinition Width="53"/>
+                        <ColumnDefinition Width="52"/>
+                        <ColumnDefinition Width="106"/>
+                        <ColumnDefinition Width="27"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="label" Content="k" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="59" FontFamily="Segoe WP" FontSize="16" Margin="0,0,0,0" Grid.Column="1" Visibility="Hidden"/>
+                    <TextBox x:Name="textBox_A" HorizontalAlignment="Left" Height="31" Margin="1,36,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="59" MaxLines="1" FontFamily="Yu Gothic Medium" TextAlignment="Right" FontSize="17" TextOptions.TextHintingMode="Fixed" MinLines="1" MaxLength="5" BorderThickness="1" BorderBrush="Black" PreviewTextInput="textBox_A_PreviewTextInput" Grid.Column="1" Visibility="Hidden"/>
+                    <Button x:Name="button" Content="Відкрити файл для зчитування тиражів" HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="275" Click="button_Click" Margin="0,17,0,0" Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2"/>
+                    <Label x:Name="label_Copy" Content="minK" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="59" FontFamily="Segoe WP" FontSize="16" Grid.Column="2" Margin="1,0,0,0" Grid.ColumnSpan="2" Visibility="Hidden"/>
+                    <TextBox x:Name="textBox_minK" HorizontalAlignment="Left" Height="31" Margin="1,36,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="59" MaxLines="1" FontFamily="Yu Gothic Medium" TextAlignment="Right" FontSize="17" TextOptions.TextHintingMode="Fixed" MinLines="1" MaxLength="5" BorderThickness="1" BorderBrush="Black" PreviewTextInput="textBox_A_PreviewTextInput" Grid.Column="2" Grid.ColumnSpan="2" Visibility="Hidden"/>
+                    <Label x:Name="label_Copy1" Content="maxK" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="59" FontFamily="Segoe WP" FontSize="16" Grid.Column="4" Margin="5,0,0,0" Visibility="Hidden"/>
+                    <TextBox x:Name="textBox_maxK" HorizontalAlignment="Left" Height="31" Margin="5,36,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="59" MaxLines="1" FontFamily="Yu Gothic Medium" TextAlignment="Right" FontSize="17" TextOptions.TextHintingMode="Fixed" MinLines="1" MaxLength="5" BorderThickness="1" BorderBrush="Black" PreviewTextInput="textBox_A_PreviewTextInput" Grid.Column="4" Visibility="Hidden"/>
+                    <Label x:Name="label_Copy2" Content="Початковий № тиражу" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="150" FontFamily="Segoe WP" FontSize="12.5" Margin="24,12,0,0" Grid.Row="1" Grid.ColumnSpan="3"/>
+                    <TextBox x:Name="textBox_startN" HorizontalAlignment="Left" Height="31" Margin="1,48,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="59" MaxLines="1" FontFamily="Yu Gothic Medium" TextAlignment="Right" FontSize="17" TextOptions.TextHintingMode="Fixed" MinLines="1" MaxLength="5" BorderThickness="1" BorderBrush="Black" PreviewTextInput="textBox_A_PreviewTextInput" Grid.Column="1" Grid.Row="1"/>
+                    <Label x:Name="label_Copy3" Content="Кінцевий № тиражу" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="149" FontFamily="Segoe WP" FontSize="12.5" Margin="0,12,0,0" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1"/>
+                    <TextBox x:Name="textBox_endN" HorizontalAlignment="Left" Height="31" Margin="5,43,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="59" MaxLines="1" FontFamily="Yu Gothic Medium" TextAlignment="Right" FontSize="17" TextOptions.TextHintingMode="Fixed" MinLines="1" MaxLength="5" BorderThickness="1" BorderBrush="Black" PreviewTextInput="textBox_A_PreviewTextInput" Grid.Column="4" Grid.Row="1"/>
+                    <Button x:Name="button_Update" Content="Змінити номера вхідних тиражів" HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="275" Click="button_Update_Click" Margin="24,86,0,0" Grid.ColumnSpan="5" Grid.Row="2"/>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox x:Name="groupBox1_Copy" Header="Дані для генерації" HorizontalAlignment="Left" Margin="30,390,0,0" VerticalAlignment="Top" Height="248" Width="381" BorderBrush="#FF767676">
+            <StackPanel>
+                <Grid Height="222">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0*"/>
+                        <RowDefinition Height="187*"/>
+                        <RowDefinition Height="69*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="25*"/>
+                        <ColumnDefinition Width="106*"/>
+                        <ColumnDefinition Width="53*"/>
+                        <ColumnDefinition Width="52*"/>
+                        <ColumnDefinition Width="106*"/>
+                        <ColumnDefinition Width="27*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="label_Copy6" Content="Мінімальне значення суми" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="150" FontFamily="Segoe WP" FontSize="11" Margin="24,12,0,0" Grid.Row="1" Grid.ColumnSpan="3"/>
+                    <TextBox x:Name="textBox_minSum" HorizontalAlignment="Left" Height="31" Margin="1,48,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="59" MaxLines="1" FontFamily="Yu Gothic Medium" TextAlignment="Right" FontSize="17" TextOptions.TextHintingMode="Fixed" MinLines="1" MaxLength="5" BorderThickness="1" BorderBrush="Black" PreviewTextInput="textBox_A_PreviewTextInput" Grid.Column="1" Grid.Row="1"/>
+                    <Label x:Name="label_Copy7" Content="Максимальне значення суми" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="158" FontFamily="Segoe WP" FontSize="11" Margin="0,12,0,0" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1"/>
+                    <TextBox x:Name="textBox_maxSum" HorizontalAlignment="Left" Height="31" Margin="37,43,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="59" MaxLines="1" FontFamily="Yu Gothic Medium" TextAlignment="Right" FontSize="17" TextOptions.TextHintingMode="Fixed" MinLines="1" MaxLength="5" BorderThickness="1" BorderBrush="Black" PreviewTextInput="textBox_A_PreviewTextInput" Grid.Column="4" Grid.Row="1"/>
+                    <Button x:Name="button_Gen" Content="Згенерувати нові тиражі" HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="306" Click="button_Gen_Click" Grid.ColumnSpan="4" Grid.Column="1" Grid.Row="2"/>
+                    <ComboBox x:Name="comboBox" Grid.ColumnSpan="5" HorizontalAlignment="Left" Margin="24,105,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="308">
+                        <ListBoxItem Content="1 мінімальний, 3 середніх, 2 максимальних"/>
+                        <ListBoxItem Content="1 мінімальний, 4 середніх, 1 максимальний"/>
+                        <ListBoxItem Content="4 середніх, 2 максимальних"/>
+                    </ComboBox>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </Window>
